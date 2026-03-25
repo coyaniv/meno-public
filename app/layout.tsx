@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Meno - בריאות נשים חכמה",
+  title: "Meno - הבריאות שלך, בידיים שלך",
   description:
-    "Meno - אפליקציה לניהול ומעקב אחר בריאות נשים, עם דגש על פרימנופאוזה ומנופאוזה",
+    "Meno - אפליקציית בריאות האישה החכמה. מעקב תסמינים, תובנות מבוססות AI, וליווי אישי בכל שלב.",
   icons: {
     icon: [
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
