@@ -3,349 +3,121 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <>
-      {/* Nav */}
-      <nav
-        style={{
-          position: "fixed",
-          top: 0,
-          left: 0,
-          right: 0,
-          zIndex: 100,
-          background: "rgba(241, 228, 219, 0.85)",
-          backdropFilter: "blur(20px)",
-          WebkitBackdropFilter: "blur(20px)",
-          borderBottom: "1px solid rgba(210, 202, 223, 0.5)",
-        }}
-      >
-        <div
-          style={{
-            maxWidth: 1100,
-            margin: "0 auto",
-            padding: "12px 32px",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Link
-            href="/"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              textDecoration: "none",
-            }}
-          >
-            <img src="/logo.png" alt="Meno" style={{ height: 36 }} />
-            <span
-              style={{
-                fontSize: 22,
-                fontWeight: 700,
-                color: "var(--primary)",
-                letterSpacing: -0.5,
-              }}
-            >
-              Meno
-            </span>
+      {/* Nav - white clean bar matching Stitch design */}
+      <nav className="site-nav">
+        <div className="nav-inner">
+          <Link href="/" className="nav-logo-link">
+            <img src="/logo.png" alt="Meno" className="nav-logo-img" />
+            <span className="nav-logo-text">Meno</span>
           </Link>
-          <div style={{ display: "flex", gap: 32, alignItems: "center" }}>
+          <div className="nav-center">
             <a href="#features" className="nav-link">
-              מה באפליקציה
+              בית
             </a>
             <a href="#download" className="nav-link">
-              הורדה
+              אודות
             </a>
-            <Link href="/privacy" className="nav-link">
-              פרטיות
-            </Link>
-            <Link href="/terms" className="nav-link">
-              תנאי שימוש
-            </Link>
           </div>
+          <a href="#download" className="nav-cta-btn">
+            !להתחיל עכשיו
+          </a>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section
-        style={{
-          minHeight: "100vh",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          padding: "120px 32px 80px",
-          position: "relative",
-          overflow: "hidden",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "-30%",
-            left: "-20%",
-            width: 600,
-            height: 600,
-            background:
-              "radial-gradient(circle, rgba(92, 61, 110, 0.07) 0%, transparent 70%)",
-            borderRadius: "50%",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-20%",
-            right: "-10%",
-            width: 500,
-            height: 500,
-            background:
-              "radial-gradient(circle, rgba(233, 30, 140, 0.04) 0%, transparent 70%)",
-            borderRadius: "50%",
-          }}
-        />
-        <div
-          style={{
-            maxWidth: 720,
-            textAlign: "center",
-            position: "relative",
-            zIndex: 1,
-          }}
-        >
-          <div style={{ margin: "0 auto 32px", width: 100, height: 100 }}>
-            <img
-              src="/logo.png"
-              alt="Meno Logo"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
-          </div>
-          <div
-            style={{
-              display: "inline-block",
-              padding: "6px 18px",
-              background: "rgba(92, 61, 110, 0.1)",
-              color: "var(--primary)",
-              borderRadius: 100,
-              fontSize: 14,
-              fontWeight: 500,
-              marginBottom: 28,
-            }}
-          >
-            בריאות האישה, בגישה חכמה
-          </div>
-          <h1
-            style={{
-              fontSize: "clamp(36px, 6vw, 56px)",
-              fontWeight: 700,
-              lineHeight: 1.2,
-              color: "var(--text)",
-              marginBottom: 20,
-              letterSpacing: -0.5,
-            }}
-          >
-            הבריאות שלך,
-            <br />
-            <span style={{ color: "var(--primary)" }}>בידיים שלך</span>
-          </h1>
-          <p
-            style={{
-              fontSize: 19,
-              color: "var(--text-secondary)",
-              maxWidth: 520,
-              margin: "0 auto 40px",
-              lineHeight: 1.8,
-              fontWeight: 300,
-            }}
-          >
-            מעקב תסמינים, תובנות מבוססות AI, וליווי אישי לכל שלב בחיים. הכל
-            במקום אחד, בעברית, ובשבילך.
-          </p>
-          <StoreButtons variant="hero" />
-        </div>
-      </section>
-
-      {/* Features */}
-      <section
-        id="features"
-        style={{ padding: "80px 32px 100px", maxWidth: 1100, margin: "0 auto" }}
-      >
-        <div style={{ textAlign: "center", marginBottom: 60 }}>
-          <h2
-            style={{
-              fontSize: 32,
-              fontWeight: 700,
-              marginBottom: 12,
-              color: "var(--text)",
-            }}
-          >
-            הכל במקום אחד
-          </h2>
-          <p
-            style={{
-              fontSize: 17,
-              color: "var(--text-secondary)",
-              fontWeight: 300,
-            }}
-          >
-            הכלים שתצטרכי כדי להבין את הגוף שלך טוב יותר
-          </p>
-        </div>
-        <div className="features-grid">
-          <FeatureCard
-            icon={
-              <path d="M12 20v-6M6 20V10M18 20V4" />
-            }
-            title="מעקב תסמינים יומי"
-            description="תעדי את ההרגשה שלך בקלות ועקבי אחרי דפוסים לאורך זמן."
-          />
-          <FeatureCard
-            icon={
-              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-            }
-            title="צ׳אט AI אישי"
-            description="שאלי כל שאלה וקבלי תשובות מותאמות אישית בעברית, מבוססות על הנתונים שלך."
-          />
-          <FeatureCard
-            icon={
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            }
-            title="סנכרון עם Apple Health"
-            description="חיבור אוטומטי לנתוני הבריאות שלך לתמונה מלאה ומדויקת יותר."
-          />
-          <FeatureCard
-            icon={
-              <>
-                <circle cx="12" cy="12" r="10" />
-                <path d="M12 6v6l4 2" />
-              </>
-            }
-            title="מעקב מחזור"
-            description="תיעוד קל ומדויק של המחזור החודשי עם תחזיות חכמות."
-          />
-          <FeatureCard
-            icon={
-              <>
-                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-              </>
-            }
-            title="יומן אישי"
-            description="מרחב פרטי לכתוב, לשתף ולהבין את מה שעוברת."
-          />
-          <FeatureCard
-            icon={
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-            }
-            title="פרטיות מלאה"
-            description="המידע שלך מוגן ומאובטח. אנחנו לא מוכרות ולא משתפות נתונים."
-          />
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section id="download" style={{ padding: "80px 32px", textAlign: "center" }}>
-        <div
-          style={{
-            maxWidth: 700,
-            margin: "0 auto",
-            background: "var(--primary)",
-            borderRadius: 28,
-            padding: "64px 48px",
-            color: "white",
-            position: "relative",
-            overflow: "hidden",
-          }}
-        >
-          <div
-            style={{
-              position: "absolute",
-              top: "-50%",
-              right: "-30%",
-              width: 400,
-              height: 400,
-              background:
-                "radial-gradient(circle, rgba(233, 30, 140, 0.15) 0%, transparent 70%)",
-              borderRadius: "50%",
-            }}
-          />
-          <div
-            style={{
-              position: "absolute",
-              bottom: "-40%",
-              left: "-20%",
-              width: 350,
-              height: 350,
-              background:
-                "radial-gradient(circle, rgba(123, 94, 167, 0.2) 0%, transparent 70%)",
-              borderRadius: "50%",
-            }}
-          />
-          <h2
-            style={{
-              fontSize: 30,
-              fontWeight: 700,
-              marginBottom: 14,
-              position: "relative",
-            }}
-          >
-            מוכנה להתחיל?
-          </h2>
-          <p
-            style={{
-              fontSize: 17,
-              opacity: 0.85,
-              marginBottom: 36,
-              fontWeight: 300,
-              position: "relative",
-            }}
-          >
-            הורידי את Meno בחינם והתחילי את המסע לבריאות טובה יותר.
-          </p>
-          <StoreButtons variant="cta" />
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer
-        style={{
-          padding: "48px 32px",
-          borderTop: "1px solid var(--border)",
-          maxWidth: 1100,
-          margin: "0 auto",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: 20,
-          }}
-        >
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-            <Link
-              href="/"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                textDecoration: "none",
-              }}
-            >
-              <img src="/logo.png" alt="Meno" style={{ height: 28 }} />
-              <span
-                style={{
-                  fontSize: 18,
-                  fontWeight: 700,
-                  color: "var(--primary)",
-                }}
-              >
-                Meno
-              </span>
-            </Link>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)" }}>
-              &copy; 2026 Meno Health Ltd. כל הזכויות שמורות.
+      {/* Hero - gradient background with split layout */}
+      <section className="hero">
+        <div className="hero-gradient" />
+        <div className="hero-inner">
+          {/* Right side - text content (RTL so appears on right) */}
+          <div className="hero-text">
+            <h1 className="hero-title">
+              להבין מה עובר
+              <br />
+              <span className="hero-title-accent">על הגוף שלך</span>
+            </h1>
+            <p className="hero-subtitle">
+              תובנות אישיות ומעקב תסמינים מותאם לנשים בגיל המעבר.
+              <br />
+              הכל במקום אחד. בעברית.
             </p>
+            <div className="hero-store-badges">
+              <a
+                href="https://apps.apple.com/app/meno"
+                className="store-badge"
+              >
+                <img src="/badge-appstore.svg" alt="App Store" />
+              </a>
+              <a
+                href="https://play.google.com/store/apps/details?id=health.meno.app"
+                className="store-badge"
+              >
+                <img src="/badge-googleplay.svg" alt="Google Play" />
+              </a>
+            </div>
           </div>
-          <div style={{ display: "flex", gap: 28 }}>
+          {/* Left side - phone mockup */}
+          <div className="hero-phone">
+            <div className="hero-phone-frame">
+              <img src="/logo.png" alt="Meno App" className="hero-phone-logo" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Download section */}
+      <section id="download" className="cta-section">
+        <div className="cta-store-row">
+          <p className="cta-store-label">הורידי את האפליקציה עכשיו</p>
+          <div className="hero-store-badges" style={{ justifyContent: "center" }}>
+            <a
+              href="https://apps.apple.com/app/meno"
+              className="store-badge"
+            >
+              <img src="/badge-appstore.svg" alt="App Store" />
+            </a>
+            <a
+              href="https://play.google.com/store/apps/details?id=health.meno.app"
+              className="store-badge"
+            >
+              <img src="/badge-googleplay.svg" alt="Google Play" />
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer - dark bar with social icons */}
+      <footer className="site-footer">
+        <div className="footer-inner">
+          <div className="footer-social">
+            {/* Facebook */}
+            <a href="#" className="social-icon" aria-label="Facebook">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </a>
+            {/* Twitter/X */}
+            <a href="#" className="social-icon" aria-label="Twitter">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+              </svg>
+            </a>
+            {/* Instagram */}
+            <a href="#" className="social-icon" aria-label="Instagram">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z" />
+              </svg>
+            </a>
+            {/* YouTube */}
+            <a href="#" className="social-icon" aria-label="YouTube">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+          </div>
+          <div className="footer-center">
+            <span className="footer-brand">Menoapp</span>
+          </div>
+          <div className="footer-links-row">
             <Link href="/privacy" className="footer-link">
               מדיניות פרטיות
             </Link>
@@ -359,92 +131,12 @@ export default function HomePage() {
               צרי קשר
             </a>
           </div>
+          <p className="footer-copyright">
+            &copy; 2026 כל הזכויות שמורות
+          </p>
         </div>
       </footer>
     </>
   );
 }
 
-function StoreButtons({ variant }: { variant: "hero" | "cta" }) {
-  const isCta = variant === "cta";
-  return (
-    <div
-      className="store-buttons"
-      style={{ position: "relative" }}
-    >
-      <a
-        href="https://apps.apple.com/app/meno"
-        className={isCta ? "store-btn store-btn-cta-primary" : "store-btn store-btn-primary"}
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-          <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-        </svg>
-        <span className="store-btn-text">
-          <span className="store-btn-label">הורידי מ-</span>
-          <span className="store-btn-name">App Store</span>
-        </span>
-      </a>
-      <a
-        href="https://play.google.com/store/apps/details?id=health.meno.app"
-        className={isCta ? "store-btn store-btn-cta-secondary" : "store-btn store-btn-secondary"}
-      >
-        <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
-          <path d="M3 20.5v-17c0-.59.34-1.11.84-1.35L13.69 12l-9.85 9.85c-.5-.24-.84-.76-.84-1.35m13.81-5.38L6.05 21.34l8.49-8.49 2.27 2.27m3.35-4.31c.34.27.56.69.56 1.19s-.22.92-.56 1.19l-2.11 1.24-2.5-2.5 2.5-2.5 2.11 1.38M6.05 2.66l10.76 6.22-2.27 2.27-8.49-8.49z" />
-        </svg>
-        <span className="store-btn-text">
-          <span className="store-btn-label">הורידי מ-</span>
-          <span className="store-btn-name">Google Play</span>
-        </span>
-      </a>
-    </div>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  description,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-}) {
-  return (
-    <div className="feature-card">
-      <div className="feature-icon">
-        <svg
-          width="24"
-          height="24"
-          fill="none"
-          stroke="#5C3D6E"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          viewBox="0 0 24 24"
-        >
-          {icon}
-        </svg>
-      </div>
-      <h3
-        style={{
-          fontSize: 18,
-          fontWeight: 600,
-          marginBottom: 8,
-          color: "var(--text)",
-        }}
-      >
-        {title}
-      </h3>
-      <p
-        style={{
-          fontSize: 15,
-          color: "var(--text-secondary)",
-          lineHeight: 1.7,
-          fontWeight: 300,
-        }}
-      >
-        {description}
-      </p>
-    </div>
-  );
-}
