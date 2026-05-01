@@ -114,6 +114,81 @@ function JsonLd({ data }: { data: unknown }) {
   );
 }
 
+const iconSvgProps = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.75,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+const Icons = {
+  pulse: (
+    <svg {...iconSvgProps}>
+      <path d="M3 12h4l2-6 4 12 2-6h6" />
+    </svg>
+  ),
+  drop: (
+    <svg {...iconSvgProps}>
+      <path d="M12 3.5c3 4 6 7 6 10.5a6 6 0 0 1-12 0c0-3.5 3-6.5 6-10.5z" />
+    </svg>
+  ),
+  sparkle: (
+    <svg {...iconSvgProps}>
+      <path d="M12 4v3M12 17v3M4 12h3M17 12h3M6.3 6.3l2.1 2.1M15.6 15.6l2.1 2.1M6.3 17.7l2.1-2.1M15.6 8.4l2.1-2.1" />
+      <circle cx="12" cy="12" r="2.5" />
+    </svg>
+  ),
+  pill: (
+    <svg {...iconSvgProps}>
+      <rect x="3" y="9" width="18" height="6" rx="3" transform="rotate(-30 12 12)" />
+      <path d="M9.4 8 14.6 16" />
+    </svg>
+  ),
+  moon: (
+    <svg {...iconSvgProps}>
+      <path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" />
+    </svg>
+  ),
+  trendUp: (
+    <svg {...iconSvgProps}>
+      <path d="M3 17l6-6 4 4 8-8" />
+      <path d="M14 7h7v7" />
+    </svg>
+  ),
+  bars: (
+    <svg {...iconSvgProps}>
+      <path d="M5 20V11M12 20V4M19 20v-6" />
+    </svg>
+  ),
+  link: (
+    <svg {...iconSvgProps}>
+      <path d="M9 15a4 4 0 0 1 0-6l2-2a4 4 0 0 1 6 6l-1 1" />
+      <path d="M15 9a4 4 0 0 1 0 6l-2 2a4 4 0 0 1-6-6l1-1" />
+    </svg>
+  ),
+  compass: (
+    <svg {...iconSvgProps}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" />
+    </svg>
+  ),
+  globe: (
+    <svg {...iconSvgProps}>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18" />
+    </svg>
+  ),
+  lock: (
+    <svg {...iconSvgProps}>
+      <rect x="5" y="11" width="14" height="9" rx="2" />
+      <path d="M8 11V8a4 4 0 0 1 8 0v3" />
+    </svg>
+  ),
+};
+
 export default function HomePage() {
   return (
     <div className="lp">
@@ -163,7 +238,7 @@ export default function HomePage() {
             <div>
               <div className="lp-eyebrow">מעקב חכם לגיל המעבר · בעברית</div>
               <h1 className="lp-hero-title">
-                אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה
+                אפליקציה למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה
               </h1>
               <p className="lp-hero-lead">
                 עקבי אחרי גלי חום, שינה, מצב רוח, מחזור, דימום, תרופות ותוספים
@@ -186,61 +261,15 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="lp-phone-wrap" aria-hidden="true">
-              <div className="lp-blob" />
-              <div className="lp-phone">
-                <div className="lp-phone-screen">
-                  <div className="lp-phone-top">
-                    <span>היום</span>
-                    <span>המעקב שלך</span>
-                  </div>
-                  <div className="lp-phone-title">המעקב החודשי שלך</div>
-                  <div className="lp-phone-subtitle">
-                    תיעוד יומי קצר שעוזר לראות תמונה רחבה יותר
-                  </div>
-
-                  <div className="lp-track-card">
-                    <strong>מה הרגשת היום?</strong>
-                    <div className="lp-chips">
-                      <span className="lp-chip">גלי חום</span>
-                      <span className="lp-chip">שינה</span>
-                      <span className="lp-chip">מצב רוח</span>
-                      <span className="lp-chip">עייפות</span>
-                      <span className="lp-chip">ערפול מוחי</span>
-                    </div>
-                  </div>
-
-                  <div className="lp-track-card">
-                    <strong>אירועים ואורח חיים</strong>
-                    <div className="lp-chips">
-                      <span className="lp-chip">סטרס</span>
-                      <span className="lp-chip">נסיעה</span>
-                      <span className="lp-chip">אלכוהול</span>
-                      <span className="lp-chip">פעילות</span>
-                    </div>
-                  </div>
-
-                  <div className="lp-track-card">
-                    <strong>טרנד גלי חום</strong>
-                    <div className="lp-mini-chart">
-                      <span className="lp-bar" style={{ height: 34 }} />
-                      <span className="lp-bar" style={{ height: 48 }} />
-                      <span className="lp-bar" style={{ height: 28 }} />
-                      <span className="lp-bar" style={{ height: 58 }} />
-                      <span className="lp-bar" style={{ height: 43 }} />
-                      <span className="lp-bar" style={{ height: 25 }} />
-                    </div>
-                  </div>
-
-                  <div className="lp-track-card">
-                    <strong>טיפול ותוספים</strong>
-                    <div className="lp-chips">
-                      <span className="lp-chip">התחלת טיפול</span>
-                      <span className="lp-chip">תוסף חדש</span>
-                      <span className="lp-chip">שינוי מינון</span>
-                    </div>
-                  </div>
-                </div>
+            <div className="lp-hero-photo">
+              <div className="lp-hero-photo-frame">
+                <img
+                  src="/meno_woman_phone.png"
+                  alt="אישה בגיל המעבר עוקבת אחרי תסמינים באפליקציית Meno"
+                  loading="eager"
+                  decoding="async"
+                />
+                <span className="lp-hero-photo-tag">בעברית · לאייפון</span>
               </div>
             </div>
           </div>
@@ -287,7 +316,7 @@ export default function HomePage() {
 
             <div className="lp-grid-3">
               <div className="lp-card">
-                <div className="lp-icon">🔥</div>
+                <div className="lp-icon">{Icons.pulse}</div>
                 <h3>תסמינים</h3>
                 <p>
                   גלי חום, הזעות לילה, שינה, מצב רוח, עייפות, כאבים, ערפול מוחי
@@ -295,21 +324,21 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">🩸</div>
+                <div className="lp-icon">{Icons.drop}</div>
                 <h3>מחזור ודימום</h3>
                 <p>
                   תיעוד מחזור, דימום, שינויים בתדירות ובעוצמה לאורך זמן.
                 </p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">🌿</div>
+                <div className="lp-icon">{Icons.sparkle}</div>
                 <h3>אירועים ואורח חיים</h3>
                 <p>
                   סטרס, נסיעות, אלכוהול, פעילות גופנית, שינויים בשגרה ועוד.
                 </p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">💊</div>
+                <div className="lp-icon">{Icons.pill}</div>
                 <h3>תרופות ותוספים</h3>
                 <p>
                   מעקב אחרי טיפול תרופתי, טיפול הורמונלי אם רלוונטי, תוספים
@@ -317,7 +346,7 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">⌚</div>
+                <div className="lp-icon">{Icons.moon}</div>
                 <h3>שינה ופעילות</h3>
                 <p>
                   חיבור ל־Apple Health או שעון חכם כדי להוסיף נתוני שינה ופעילות
@@ -325,7 +354,7 @@ export default function HomePage() {
                 </p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">📈</div>
+                <div className="lp-icon">{Icons.trendUp}</div>
                 <h3>תמונה לאורך זמן</h3>
                 <p>
                   מבט פשוט על טרנדים, קשרים אפשריים ושינויים אחרי טיפול או שינוי
@@ -347,17 +376,17 @@ export default function HomePage() {
 
             <div className="lp-grid-3">
               <div className="lp-card">
-                <div className="lp-icon">📊</div>
+                <div className="lp-icon">{Icons.bars}</div>
                 <h3>זיהוי טרנדים</h3>
                 <p>האם התסמינים משתפרים, מחמירים או חוזרים בדפוס מסוים.</p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">🔗</div>
+                <div className="lp-icon">{Icons.link}</div>
                 <h3>קשרים אפשריים</h3>
                 <p>למשל בין שינה, סטרס, אלכוהול, נסיעה או פעילות לבין תסמינים.</p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">🧭</div>
+                <div className="lp-icon">{Icons.compass}</div>
                 <h3>מעקב אחרי טיפול</h3>
                 <p>ראי מה קרה אחרי התחלת תרופה, תוסף או שינוי בטיפול.</p>
               </div>
@@ -409,7 +438,7 @@ export default function HomePage() {
         <section className="lp-section" id="doctor">
           <div className="lp-container">
             <div className="lp-doctor-box">
-              <div>
+              <div className="lp-doctor-text">
                 <h2>להגיע לרופאה עם תמונה מסודרת יותר</h2>
                 <p>
                   אחרי תקופה של מעקב, תוכלי לשתף עם הרופאה המטפלת מידע ברור
@@ -423,32 +452,41 @@ export default function HomePage() {
                   עבורך, המעקב יעזור לך ולרופאה לזהות שאולי צריך לעשות שוב
                   שינוי והתאמה.
                 </p>
+                <div className="lp-summary-card">
+                  <strong>דוגמה לסיכום חודשי</strong>
+                  <div className="lp-summary-line">
+                    <span>גלי חום</span>
+                    <span>12 ימים</span>
+                  </div>
+                  <div className="lp-summary-line">
+                    <span>שינה לא רציפה</span>
+                    <span>8 לילות</span>
+                  </div>
+                  <div className="lp-summary-line">
+                    <span>אירועי סטרס</span>
+                    <span>4 ימים</span>
+                  </div>
+                  <div className="lp-summary-line">
+                    <span>שינוי בטיפול</span>
+                    <span>סומן בציר הזמן</span>
+                  </div>
+                </div>
                 <a
                   className="lp-btn lp-btn-on-dark"
                   href="#download"
                   data-event="click_app_store_doctor"
+                  style={{ marginTop: 28, alignSelf: "flex-start" }}
                 >
                   התחילי לבנות את המעקב שלך
                 </a>
               </div>
-              <div className="lp-summary-card">
-                <strong>דוגמה לסיכום חודשי</strong>
-                <div className="lp-summary-line">
-                  <span>גלי חום</span>
-                  <span>12 ימים</span>
-                </div>
-                <div className="lp-summary-line">
-                  <span>שינה לא רציפה</span>
-                  <span>8 לילות</span>
-                </div>
-                <div className="lp-summary-line">
-                  <span>אירועי סטרס</span>
-                  <span>4 ימים</span>
-                </div>
-                <div className="lp-summary-line">
-                  <span>שינוי בטיפול</span>
-                  <span>סומן בציר הזמן</span>
-                </div>
+              <div className="lp-doctor-photo">
+                <img
+                  src="/meno_doctor_patient.png"
+                  alt="אישה בגיל המעבר משוחחת עם רופאת נשים על תיעוד מסודר"
+                  loading="lazy"
+                  decoding="async"
+                />
               </div>
             </div>
           </div>
@@ -457,13 +495,25 @@ export default function HomePage() {
         <section className="lp-section lp-section-soft">
           <div className="lp-container lp-split">
             <div>
+              <div className="lp-editorial-photo">
+                <img
+                  src="/meno_woman_relaxed.png"
+                  alt="אישה רגועה עם כוס קפה — עוקבת אחרי גיל המעבר בקצב שלה"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <div className="lp-editorial-photo-quote">
+                  לא צריך לזכור הכל לבד — Meno עושה את הסדר בשבילך.
+                </div>
+              </div>
+            </div>
+            <div>
               <h2>למי Meno יכולה להתאים?</h2>
               <p>
                 אם את רוצה להבין טוב יותר מה קורה בגוף לאורך זמן, Meno יכולה
                 לעזור לך לעשות סדר.
               </p>
-            </div>
-            <ul className="lp-bullets">
+              <ul className="lp-bullets">
               <li>
                 <span className="lp-check">✓</span>
                 <span>את בפרימנופאוזה או בגיל המעבר ורוצה להבין מה קורה בגוף</span>
@@ -492,6 +542,7 @@ export default function HomePage() {
                 <span>יש לך שעון חכם ואת רוצה לשלב נתוני שינה ופעילות</span>
               </li>
             </ul>
+            </div>
           </div>
         </section>
 
@@ -549,12 +600,12 @@ export default function HomePage() {
             </div>
             <div className="lp-grid-2">
               <div className="lp-card">
-                <div className="lp-icon">🇮🇱</div>
+                <div className="lp-icon">{Icons.globe}</div>
                 <h3>עברית מלאה</h3>
                 <p>חוויה שמדברת בשפה שלך ומתאימה לנשים בישראל.</p>
               </div>
               <div className="lp-card">
-                <div className="lp-icon">🔒</div>
+                <div className="lp-icon">{Icons.lock}</div>
                 <h3>פרטיות ואמון</h3>
                 <p>
                   אנחנו מתייחסים למידע על תסמינים, מחזור ודימום כמידע אישי
