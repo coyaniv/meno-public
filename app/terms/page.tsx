@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meno - תנאי שימוש",
-  description: "תנאי שימוש באפליקציית Meno לבריאות נשים",
+  title: "תנאי שימוש",
+  description:
+    "תנאי השימוש באפליקציית Meno — מעקב אישי אחרי תסמיני גיל המעבר ופרימנופאוזה. האפליקציה אינה מחליפה ייעוץ או טיפול רפואי.",
+  alternates: { canonical: "/terms" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "תנאי שימוש · Meno",
+    description: "תנאי השימוש באפליקציית Meno.",
+    url: "/terms",
+    type: "article",
+    locale: "he_IL",
+  },
 };
 
 export default function TermsOfUsePage() {

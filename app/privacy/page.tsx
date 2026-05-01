@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meno - מדיניות פרטיות",
-  description: "מדיניות הפרטיות של אפליקציית Meno לבריאות נשים",
+  title: "מדיניות פרטיות",
+  description:
+    "מדיניות הפרטיות של אפליקציית Meno — איך נאסף, נשמר ומוגן המידע האישי על תסמינים, מחזור ודימום, תרופות ותוספים, תוך עמידה בחוק הגנת הפרטיות הישראלי.",
+  alternates: { canonical: "/privacy" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "מדיניות פרטיות · Meno",
+    description: "איך Meno אוספת, שומרת ומגנה על המידע הרגיש שלך.",
+    url: "/privacy",
+    type: "article",
+    locale: "he_IL",
+  },
 };
 
 export default function PrivacyPolicyPage() {

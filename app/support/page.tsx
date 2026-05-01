@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meno - תמיכה",
-  description: "מרכז התמיכה של Meno - נשמח לעזור בכל שאלה",
+  title: "תמיכה",
+  description:
+    "מרכז התמיכה של Meno — שאלות, בעיות ופניות לגבי האפליקציה למעקב גיל המעבר ופרימנופאוזה.",
+  alternates: { canonical: "/support" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "תמיכה · Meno",
+    description: "מרכז התמיכה של אפליקציית Meno.",
+    url: "/support",
+    type: "website",
+    locale: "he_IL",
+  },
 };
 
 export default function SupportPage() {

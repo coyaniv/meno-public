@@ -1,33 +1,62 @@
 User-agent: *
 Allow: /
 
-# Block AI/LLM crawlers from training on content
+Sitemap: https://menoapp.health/sitemap.xml
+
+# Explicit allows for the main search engines (Bing also feeds Microsoft Copilot).
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+# Block training crawlers — opt out of model training data collection.
 User-agent: GPTBot
-Disallow: /
-
-User-agent: ChatGPT-User
-Disallow: /
-
-User-agent: Google-Extended
-Disallow: /
-
-User-agent: CCBot
-Disallow: /
-
-User-agent: anthropic-ai
 Disallow: /
 
 User-agent: ClaudeBot
 Disallow: /
 
-User-agent: Bytespider
+User-agent: anthropic-ai
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: Applebot-Extended
+Disallow: /
+
+User-agent: CCBot
 Disallow: /
 
 User-agent: cohere-ai
 Disallow: /
 
-User-agent: PerplexityBot
+User-agent: Bytespider
 Disallow: /
 
 User-agent: FacebookBot
 Disallow: /
+
+# Allow answer / search / user-initiated bots — these power LLM citations
+# (ChatGPT search, Claude citations, Perplexity answers, AI Overviews).
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Applebot
+Allow: /

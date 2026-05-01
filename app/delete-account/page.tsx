@@ -1,9 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Meno - מחיקת חשבון",
-  description: "הסבר על מחיקת חשבון ונתונים באפליקציית Meno",
+  title: "מחיקת חשבון",
+  description:
+    "הסבר על מחיקת חשבון, מידע אישי ונתוני מעקב באפליקציית Meno.",
+  alternates: { canonical: "/delete-account" },
   robots: { index: true, follow: true },
+  openGraph: {
+    title: "מחיקת חשבון · Meno",
+    description: "מחיקת חשבון ונתונים באפליקציית Meno.",
+    url: "/delete-account",
+    type: "article",
+    locale: "he_IL",
+  },
 };
 
 export default function DeleteAccountPage() {

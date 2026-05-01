@@ -7,9 +7,121 @@ function buildAppStoreUrl(medium: string) {
   return `${APP_STORE_URL}?utm_source=landing_page&utm_medium=${medium}&utm_campaign=beta_launch`;
 }
 
+const FAQ: { q: string; a: string }[] = [
+  {
+    q: "מה זה גיל המעבר ומהי מנופאוזה?",
+    a: "גיל המעבר הוא תקופה ממושכת של שינויים הורמונליים שמובילה להפסקת המחזור החודשי. מנופאוזה היא הנקודה שבה לא היה מחזור במשך 12 חודשים רצופים. הגיל הממוצע בישראל נע סביב 50, אבל הוא משתנה מאישה לאישה.",
+  },
+  {
+    q: "מה ההבדל בין פרימנופאוזה, טרום גיל המעבר ומנופאוזה?",
+    a: "פרימנופאוזה (טרום גיל המעבר) היא השלב שמתחיל שנים לפני המנופאוזה — הגוף מתחיל לייצר פחות אסטרוגן והמחזור הופך לפחות סדיר. מנופאוזה היא הנקודה שבה המחזור הפסיק לחלוטין. אחריה מתחילה תקופת הפוסט-מנופאוזה.",
+  },
+  {
+    q: "מהם התסמינים הנפוצים של גיל המעבר?",
+    a: "בין התסמינים השכיחים: גלי חום, הזעות לילה, שינה לא רציפה, שינויים במצב הרוח, עייפות, ערפול מוחי, שינויים במחזור, יובש, ירידה בריכוז וכאבי שרירים. כל אישה חווה צירוף שונה של תסמינים בעוצמות שונות.",
+  },
+  {
+    q: "איך יודעים אם זה גיל המעבר או משהו אחר?",
+    a: "אין דרך לאבחן זאת לבד. מעקב מסודר אחרי תסמינים, מחזור ודימום יכול לעזור לזהות דפוסים, אבל בכל תסמין חריג, דימום בלתי שגרתי או חשש — חשוב לפנות לרופאת נשים. Meno היא כלי תיעוד, לא כלי אבחון.",
+  },
+  {
+    q: "למה המחזור נהיה לא סדיר בפרימנופאוזה?",
+    a: "במהלך הפרימנופאוזה רמות ההורמונים משתנות בצורה לא צפויה. זה גורם למחזור להופיע בתדירות שונה, להיות חזק או חלש יותר מהרגיל, ולפעמים לדלג על חודשים שלמים. תיעוד עוזר לראות את התבנית שמתגבשת לאורך זמן.",
+  },
+  {
+    q: "האם כדאי לעקוב אחרי דימום ומחזור בגיל המעבר?",
+    a: "כן — תיעוד מסודר של מחזור, דימום ושינויים בעוצמה הוא אחד הכלים השימושיים ביותר לשיחה עם רופאת נשים. במקרה של דימום אחרי הפסקת מחזור, דימום בין וסתות חזק או כל דימום חריג, חשוב לפנות לרופאה במקום להמתין.",
+  },
+  {
+    q: "איך מעקב אחרי תסמינים יכול לעזור לרופאת נשים?",
+    a: "במקום לתאר זיכרון מהשבועות האחרונים, אפשר להגיע עם תמונה ברורה של מה היה, באיזו תדירות, ואיך זה השתנה אחרי טיפול או שינוי באורח החיים. זה הופך את השיחה ממוקדת יותר ועוזר להתאים את הטיפול בצורה מדויקת יותר.",
+  },
+  {
+    q: "כמה זמן צריך לעקוב כדי לראות דפוסים?",
+    a: "בדרך כלל אחרי שלושה עד שישה שבועות מתחילים להופיע דפוסים — אילו תסמינים חוזרים, באיזה תזמון, ומה אולי משפיע. ככל שעוקבים יותר זמן, התמונה נעשית ברורה יותר ואפשר להבחין גם בשינויים שקרו אחרי טיפול.",
+  },
+  {
+    q: "האם Meno מתאימה גם למי שעדיין מקבלת מחזור?",
+    a: "כן. הרבה נשים בפרימנופאוזה ממשיכות לקבל מחזור — לעיתים סדיר, לעיתים לא. Meno עוזרת לתעד גם את המחזור עצמו וגם את התסמינים שמתחילים להופיע סביבו, כדי שתהיה לך תמונה רציפה לאורך כל השלב הזה.",
+  },
+  {
+    q: "האם Meno מחליפה ייעוץ רפואי?",
+    a: "לא. Meno היא כלי תיעוד ומעקב — לא כלי אבחון או טיפול. בכל החלטה רפואית, התאמת טיפול הורמונלי, תוספים, או תסמינים שמטרידים אותך — חשוב להיוועץ ברופאה או ברופא מוסמך.",
+  },
+  {
+    q: "האם המידע באפליקציה פרטי?",
+    a: "המידע הוא אישי ורגיש, ו-Meno נבנתה מתוך התייחסות לכך. את המדיניות המלאה אפשר לקרוא בעמוד מדיניות הפרטיות.",
+  },
+  {
+    q: "האם Meno זמינה לאייפון ולאנדרואיד?",
+    a: "Meno זמינה כעת לאייפון בחנות App Store. גרסת אנדרואיד מתוכננת.",
+  },
+];
+
+const ORGANIZATION_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "Meno",
+  url: "https://menoapp.health/",
+  logo: "https://menoapp.health/logo.png",
+  email: "contact@menoapp.health",
+  areaServed: { "@type": "Country", name: "Israel" },
+  inLanguage: "he",
+};
+
+const WEBSITE_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Meno",
+  url: "https://menoapp.health/",
+  inLanguage: "he",
+  description:
+    "אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר, פרימנופאוזה, מחזור, דימום, שינה, מצב רוח, תרופות ותוספים.",
+};
+
+const MOBILE_APP_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  name: "Meno",
+  description:
+    "אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה — מחזור, דימום, שינה, מצב רוח, תרופות ותוספים.",
+  applicationCategory: "HealthApplication",
+  applicationSubCategory: "Menopause symptom tracker",
+  operatingSystem: "iOS",
+  inLanguage: "he",
+  url: APP_STORE_URL,
+  offers: { "@type": "Offer", price: "0", priceCurrency: "ILS" },
+  publisher: { "@type": "Organization", name: "Meno" },
+};
+
+const FAQ_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  inLanguage: "he",
+  mainEntity: FAQ.map(({ q, a }) => ({
+    "@type": "Question",
+    name: q,
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
+};
+
+function JsonLd({ data }: { data: unknown }) {
+  return (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
 export default function HomePage() {
   return (
     <div className="lp">
+      <JsonLd data={ORGANIZATION_JSONLD} />
+      <JsonLd data={WEBSITE_JSONLD} />
+      <JsonLd data={MOBILE_APP_JSONLD} />
+      <JsonLd data={FAQ_JSONLD} />
+
       <div className="lp-top-banner">
         השקה ראשונית · אפליקציה בעברית למעקב תסמיני טרום גיל המעבר וגיל המעבר
       </div>
@@ -17,7 +129,13 @@ export default function HomePage() {
       <header className="lp-header">
         <div className="lp-container lp-nav">
           <Link href="/" className="lp-logo" aria-label="Meno home">
-            <img src="/logo.png" alt="" className="lp-logo-img" />
+            <img
+              src="/logo.png"
+              alt=""
+              className="lp-logo-img"
+              loading="lazy"
+              decoding="async"
+            />
             <span>Meno</span>
           </Link>
           <nav className="lp-nav-links" aria-label="ניווט ראשי">
@@ -25,10 +143,15 @@ export default function HomePage() {
             <a href="#track">מה אפשר לעקוב</a>
             <a href="#patterns">דפוסים</a>
             <a href="#doctor">לרופאה</a>
+            <a href="#faq">שאלות נפוצות</a>
             <a href="#privacy">פרטיות</a>
             <Link href="/support">תמיכה</Link>
           </nav>
-          <a className="lp-btn lp-btn-primary" href="#download">
+          <a
+            className="lp-btn lp-btn-primary"
+            href="#download"
+            data-event="click_app_store_header"
+          >
             להורדת האפליקציה
           </a>
         </div>
@@ -40,15 +163,18 @@ export default function HomePage() {
             <div>
               <div className="lp-eyebrow">מעקב חכם לגיל המעבר · בעברית</div>
               <h1 className="lp-hero-title">
-                עקבי אחרי תסמיני גיל המעבר לאורך זמן
+                אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה
               </h1>
               <p className="lp-hero-lead">
-                מרכזת תסמינים, אירועים ונתוני שינה/פעילות, ווסת או דימומים,
-                תרופות ותוספים — כדי לעזור לך לזהות דפוסים, להבין מה משפיע
-                עלייך ולהגיע מוכנה יותר לרופאה.
+                עקבי אחרי גלי חום, שינה, מצב רוח, מחזור, דימום, תרופות ותוספים
+                — וראי דפוסים לאורך זמן במקום לנסות לזכור הכול לבד.
               </p>
               <div className="lp-hero-actions">
-                <a className="lp-btn lp-btn-primary" href="#download">
+                <a
+                  className="lp-btn lp-btn-primary"
+                  href="#download"
+                  data-event="click_app_store_hero"
+                >
                   להורדת האפליקציה
                 </a>
                 <a className="lp-btn lp-btn-secondary" href="#why">
@@ -125,9 +251,11 @@ export default function HomePage() {
             <div>
               <h2>קשה להבין דפוסים מזיכרון בלבד</h2>
               <p>
-                בגיל המעבר ופרימנופאוזה, תסמינים יכולים להשתנות מיום ליום
-                ובמהלך החודש. גלי חום, שינה לא רציפה, שינויי מצב רוח, עייפות,
-                מחזור לא סדיר או דימום — קשה לזכור מה קרה, מתי, ומה אולי השפיע.
+                בגיל המעבר ובפרימנופאוזה (טרום גיל המעבר), תסמינים יכולים
+                להשתנות מיום ליום ובמהלך החודש. גלי חום, שינה לא רציפה, שינויי
+                מצב רוח, עייפות, מחזור לא סדיר או דימום — קשה לזכור מה קרה,
+                מתי, ומה אולי השפיע. גם בשלב המנופאוזה עצמה התסמינים ממשיכים
+                להשתנות לאורך זמן.
               </p>
               <p>
                 מעקב של כמה שבועות עד חודשים יכול לעזור לראות את התמונה הרחבה:
@@ -295,7 +423,11 @@ export default function HomePage() {
                   עבורך, המעקב יעזור לך ולרופאה לזהות שאולי צריך לעשות שוב
                   שינוי והתאמה.
                 </p>
-                <a className="lp-btn lp-btn-on-dark" href="#download">
+                <a
+                  className="lp-btn lp-btn-on-dark"
+                  href="#download"
+                  data-event="click_app_store_doctor"
+                >
                   התחילי לבנות את המעקב שלך
                 </a>
               </div>
@@ -363,7 +495,50 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="lp-section" id="privacy">
+        <section className="lp-section" id="what-to-track">
+          <div className="lp-container">
+            <div className="lp-section-header">
+              <h2>מה כדאי לעקוב בגיל המעבר?</h2>
+              <p>
+                ארבע קבוצות שמרכיבות יחד תמונה אמיתית של מה שעובר עלייך
+                בפרימנופאוזה ובגיל המעבר.
+              </p>
+            </div>
+
+            <div className="lp-grid-2">
+              <div className="lp-card">
+                <h3>תסמינים</h3>
+                <p>
+                  גלי חום, הזעות לילה, שינה לא רציפה, מצב רוח, עייפות, ערפול
+                  מוחי וכאבים.
+                </p>
+              </div>
+              <div className="lp-card">
+                <h3>מחזור ודימום</h3>
+                <p>
+                  מחזור לא סדיר בפרימנופאוזה, דימום בין וסתות, שינוי בעוצמה,
+                  וכל דימום חריג שחשוב לתעד ולדווח עליו לרופאה.
+                </p>
+              </div>
+              <div className="lp-card">
+                <h3>תרופות, הורמונים ותוספים</h3>
+                <p>
+                  טיפול הורמונלי, תרופות, תוספים, שינוי מינון, התחלה או הפסקה
+                  של טיפול — מתי ואיך השפיעו על התסמינים.
+                </p>
+              </div>
+              <div className="lp-card">
+                <h3>טריגרים ואורח חיים</h3>
+                <p>
+                  סטרס, אלכוהול, קפה, פעילות גופנית, איכות שינה ונסיעות —
+                  המרכיבים שלפעמים משפיעים יותר ממה שנראה.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="lp-section lp-section-soft" id="privacy">
           <div className="lp-container">
             <div className="lp-section-header">
               <h2>המידע שלך נשאר שלך</h2>
@@ -387,6 +562,31 @@ export default function HomePage() {
           </div>
         </section>
 
+        <section className="lp-section" id="faq">
+          <div className="lp-container">
+            <div className="lp-section-header">
+              <h2>שאלות נפוצות על גיל המעבר ופרימנופאוזה</h2>
+              <p>
+                התשובות כאן הן מידע כללי בלבד, ולא תחליף לייעוץ רפואי אישי.
+              </p>
+            </div>
+
+            <div className="lp-faq">
+              {FAQ.map(({ q, a }, i) => (
+                <details key={i} className="lp-faq-item" data-event="click_faq_question" data-q-index={i}>
+                  <summary>
+                    <span>{q}</span>
+                    <span className="lp-faq-icon" aria-hidden="true">+</span>
+                  </summary>
+                  <div className="lp-faq-answer">
+                    <p>{a}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <section className="lp-section lp-section-soft" id="download">
           <div className="lp-container">
             <div className="lp-cta-final">
@@ -400,20 +600,31 @@ export default function HomePage() {
                   className="lp-store-link"
                   href={buildAppStoreUrl("download_section_apple")}
                   aria-label="הורדה מ-App Store"
+                  data-event="click_app_store_download_section"
                 >
-                  <img src="/badge-appstore.svg" alt="App Store" />
+                  <img
+                    src="/badge-appstore.svg"
+                    alt="App Store"
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </a>
                 <span
                   className="lp-store-link lp-store-link-coming"
                   aria-disabled="true"
                   aria-label="Google Play — בקרוב"
                 >
-                  <img src="/badge-googleplay.svg" alt="Google Play" />
+                  <img
+                    src="/badge-googleplay.svg"
+                    alt="Google Play"
+                    loading="lazy"
+                    decoding="async"
+                  />
                   <span className="lp-store-coming-pill">בקרוב</span>
                 </span>
               </div>
               <p className="lp-download-note">
-                Meno זמינה כעת לאייפון. גרסת אנדרויד תושק בקרוב.
+                Meno זמינה כעת לאייפון. גרסת אנדרויד מתוכננת.
               </p>
             </div>
           </div>
@@ -421,11 +632,14 @@ export default function HomePage() {
 
         <section className="lp-section lp-section-disclaimer">
           <div className="lp-container">
-            <div className="lp-disclaimer">
-              <strong>חשוב לדעת:</strong> Meno אינה מחליפה ייעוץ רפואי, אבחון
-              או טיפול. המידע נועד לעזור לך לעקוב, לזהות דפוסים ולהגיע מוכנה
-              יותר לשיחה עם גורם רפואי. במקרה של תסמינים חריגים, דימום משמעותי,
-              כאבים חזקים או חשש רפואי — יש לפנות לגורם רפואי מוסמך.
+            <div className="lp-trust-block">
+              <h3>נבנתה כדי לעזור לך לעקוב — לא כדי לאבחן</h3>
+              <p>
+                Meno עוזרת לך לתעד תסמינים, מחזור, דימום, תרופות, תוספים
+                ושינויים לאורך זמן. היא אינה מחליפה ייעוץ רפואי, אבחון או
+                טיפול. במקרה של דימום חריג, כאבים חזקים, תסמינים חדשים או חשש
+                רפואי — יש לפנות לרופאה או לגורם רפואי מוסמך.
+              </p>
             </div>
           </div>
         </section>
@@ -435,6 +649,7 @@ export default function HomePage() {
         <div className="lp-container lp-footer-grid">
           <div>© 2026 Meno. כל הזכויות שמורות.</div>
           <div className="lp-footer-links">
+            <a href="#faq">שאלות נפוצות</a>
             <Link href="/privacy">מדיניות פרטיות</Link>
             <Link href="/terms">תנאי שימוש</Link>
             <Link href="/support">תמיכה</Link>
@@ -444,7 +659,11 @@ export default function HomePage() {
       </footer>
 
       <div className="lp-mobile-sticky">
-        <a className="lp-btn lp-btn-primary" href="#download">
+        <a
+          className="lp-btn lp-btn-primary"
+          href="#download"
+          data-event="click_app_store_mobile_sticky"
+        >
           להורדת האפליקציה
         </a>
       </div>
