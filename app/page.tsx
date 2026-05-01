@@ -10,7 +10,7 @@ function buildAppStoreUrl(medium: string) {
 const FAQ: { q: string; a: string }[] = [
   {
     q: "מה זה גיל המעבר ומהי מנופאוזה?",
-    a: "גיל המעבר הוא תקופה ממושכת של שינויים הורמונליים שמובילה להפסקת המחזור החודשי. מנופאוזה היא הנקודה שבה לא היה מחזור במשך 12 חודשים רצופים. הגיל הממוצע בישראל נע סביב 50, אבל הוא משתנה מאישה לאישה.",
+    a: "גיל המעבר הוא תקופה ממושכת של שינויים הורמונליים שמובילה להפסקת המחזור החודשי. מנופאוזה היא הנקודה שבה לא היה מחזור במשך 12 חודשים רצופים. אצל נשים רבות זה קורה סביב גיל 50, אך הטווח משתנה מאישה לאישה.",
   },
   {
     q: "מה ההבדל בין פרימנופאוזה, טרום גיל המעבר ומנופאוזה?",
@@ -278,7 +278,7 @@ export default function HomePage() {
         <section className="lp-section" id="track">
           <div className="lp-container">
             <div className="lp-section-header">
-              <h2>כל מה שחשוב למעקב — במקום אחד</h2>
+              <h2>מה Meno מאפשרת לתעד?</h2>
               <p>
                 תיעוד פשוט של תסמינים, אירועים, טיפול ומדדים שיכולים לעזור להבין
                 מה באמת קורה לאורך זמן.
@@ -556,7 +556,11 @@ export default function HomePage() {
               <div className="lp-card">
                 <div className="lp-icon">🔒</div>
                 <h3>פרטיות ואמון</h3>
-                <p>המידע הרגיש שלך צריך להיות ברור, נגיש ודיסקרטי.</p>
+                <p>
+                  אנחנו מתייחסים למידע על תסמינים, מחזור ודימום כמידע אישי
+                  ורגיש. ניתן לקרוא ב<Link href="/privacy">מדיניות הפרטיות</Link>{" "}
+                  כיצד המידע נשמר, מתי הוא נמחק, ומה נמצא בשליטתך.
+                </p>
               </div>
             </div>
           </div>
@@ -575,8 +579,8 @@ export default function HomePage() {
               {FAQ.map(({ q, a }, i) => (
                 <details key={i} className="lp-faq-item" data-event="click_faq_question" data-q-index={i}>
                   <summary>
-                    <span>{q}</span>
-                    <span className="lp-faq-icon" aria-hidden="true">+</span>
+                    <span className="lp-faq-q">{q}</span>
+                    <span className="lp-faq-icon" aria-hidden="true" />
                   </summary>
                   <div className="lp-faq-answer">
                     <p>{a}</p>

@@ -4,7 +4,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://menoapp.health"),
   title: {
-    default: "Meno — אפליקציה למעקב תסמיני גיל המעבר ופרימנופאוזה",
+    default: "Meno — אפליקציה למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה",
     template: "%s · Meno",
   },
   description:
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     locale: "he_IL",
     url: "https://menoapp.health/",
     siteName: "Meno",
-    title: "Meno — אפליקציה בעברית למעקב גיל המעבר ופרימנופאוזה",
+    title: "Meno — אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה",
     description:
       "מעקב בעברית: גלי חום, שינה, מצב רוח, מחזור, תרופות ותוספים — תמונה ברורה לאורך זמן.",
     images: [
@@ -23,13 +23,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Meno — מעקב גיל המעבר בעברית",
+        alt: "Meno - אפליקציה בעברית למעקב גיל המעבר ופרימנופאוזה",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Meno — אפליקציה בעברית למעקב גיל המעבר",
+    title: "Meno — אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר",
     description:
       "מעקב בעברית: גלי חום, שינה, מצב רוח, מחזור, תרופות ותוספים — תמונה ברורה לאורך זמן.",
     images: ["/og-image.png"],
