@@ -262,6 +262,8 @@ export default function HomePage() {
             </div>
 
             <div className="lp-hero-photo">
+              <div className="lp-hero-shape" aria-hidden="true" />
+              <div className="lp-hero-shape-2" aria-hidden="true" />
               <div className="lp-hero-photo-frame">
                 <img
                   src="/meno_woman_phone.png"
@@ -269,7 +271,27 @@ export default function HomePage() {
                   loading="eager"
                   decoding="async"
                 />
-                <span className="lp-hero-photo-tag">בעברית · לאייפון</span>
+              </div>
+
+              <div className="lp-hero-badge lp-hero-badge-trend" aria-hidden="true">
+                <div className="lp-hero-badge-icon">{Icons.trendUp}</div>
+                <div className="lp-hero-badge-text">
+                  <small>טרנד גלי חום</small>
+                  <strong>
+                    <em>↘</em>
+                    פחות מהשבוע שעבר
+                  </strong>
+                </div>
+              </div>
+
+              <div className="lp-hero-badge lp-hero-badge-checkin" aria-hidden="true">
+                <small>היום · 14:32</small>
+                <strong>מה הרגשת היום?</strong>
+                <div className="lp-hero-badge-chips">
+                  <span>גלי חום</span>
+                  <span>שינה</span>
+                  <span>מצב רוח</span>
+                </div>
               </div>
             </div>
           </div>

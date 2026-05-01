@@ -335,14 +335,39 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 40px 30px;
+  min-height: 600px;
+}
+
+.lp-hero-shape {
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  background: var(--lp-primary);
+  border-radius: 60% 40% 55% 45% / 50% 55% 45% 50%;
+  bottom: 4%;
+  inset-inline-start: -10px;
+  z-index: 0;
+}
+
+.lp-hero-shape-2 {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  background: var(--lp-primary-light);
+  border-radius: 50%;
+  top: 0;
+  inset-inline-end: 10px;
+  z-index: 0;
 }
 
 .lp-hero-photo-frame {
   position: relative;
+  z-index: 1;
   width: 100%;
-  max-width: 520px;
+  max-width: 460px;
   aspect-ratio: 4 / 5;
-  border-radius: 32px;
+  border-radius: 28px;
   overflow: hidden;
   background: var(--lp-primary-light);
   box-shadow: 0 24px 60px rgba(57, 0, 103, 0.18);
@@ -355,17 +380,115 @@ a:hover {
   display: block;
 }
 
-.lp-hero-photo-tag {
+/* Floating Meno-app cards over the hero photo */
+.lp-hero-badge {
   position: absolute;
-  bottom: 24px;
-  inset-inline-start: 24px;
-  background: var(--lp-primary-dark);
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 999px;
+  z-index: 3;
+  background: #fff;
+  border-radius: 16px;
+  padding: 14px 16px;
+  box-shadow: 0 16px 36px rgba(57, 0, 103, 0.18), 0 2px 6px rgba(57, 0, 103, 0.06);
   font-size: 14px;
   font-weight: 600;
+  color: var(--lp-text);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.lp-hero-badge-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--lp-primary-dark);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.lp-hero-badge-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke-width: 2;
+}
+
+.lp-hero-badge-text small {
+  display: block;
+  color: var(--lp-muted);
+  font-size: 11px;
+  font-weight: 500;
   letter-spacing: 0.3px;
+  margin-bottom: 2px;
+}
+
+.lp-hero-badge-text strong {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--lp-text);
+}
+
+.lp-hero-badge-text strong em {
+  font-style: normal;
+  color: var(--lp-success);
+  margin-inline-end: 4px;
+}
+
+.lp-hero-badge-trend {
+  top: 18%;
+  inset-inline-end: -20px;
+}
+
+.lp-hero-badge-checkin {
+  bottom: 10%;
+  inset-inline-start: -28px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  padding: 14px 16px 16px;
+  min-width: 220px;
+}
+
+.lp-hero-badge-checkin > small {
+  color: var(--lp-muted);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.lp-hero-badge-checkin strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--lp-text);
+}
+
+.lp-hero-badge-chips {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.lp-hero-badge-chips span {
+  background: var(--lp-bg);
+  color: var(--lp-primary-dark);
+  border-radius: 999px;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+@media (max-width: 960px) {
+  .lp-hero-photo { padding: 30px 8px; min-height: auto; }
+  .lp-hero-badge-trend { inset-inline-end: 0; top: 8%; }
+  .lp-hero-badge-checkin { inset-inline-start: 0; bottom: 6%; min-width: 200px; }
+  .lp-hero-shape, .lp-hero-shape-2 { display: none; }
+}
+
+@media (max-width: 520px) {
+  .lp-hero-badge-checkin { display: none; }
+  .lp-hero-badge-trend { inset-inline-end: 4px; top: 4%; padding: 10px 12px; }
 }
 
 .lp-phone {
@@ -546,8 +669,8 @@ a:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--lp-bg);
-  color: var(--lp-primary-dark);
+  background: var(--lp-primary-dark);
+  color: #fff;
   margin-bottom: 8px;
 }
 
@@ -555,6 +678,7 @@ a:hover {
   width: 28px;
   height: 28px;
   display: block;
+  stroke-width: 2;
 }
 
 .lp-split {
