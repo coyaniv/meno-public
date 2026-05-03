@@ -1,157 +1,178 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "תמיכה",
   description:
-    "מרכז התמיכה של Meno — שאלות, בעיות ופניות לגבי האפליקציה למעקב גיל המעבר ופרימנופאוזה.",
+    "מרכז התמיכה של Meno — שאלות נפוצות, פנייה אלינו, ועזרה בשימוש באפליקציה למעקב גיל המעבר ופרימנופאוזה.",
   alternates: { canonical: "/support" },
   robots: { index: true, follow: true },
   openGraph: {
     title: "תמיכה · Meno",
-    description: "מרכז התמיכה של אפליקציית Meno.",
+    description: "שאלות נפוצות ופנייה לתמיכה של Meno.",
     url: "/support",
     type: "website",
     locale: "he_IL",
   },
 };
 
+const SUPPORT_FAQ: { q: string; a: React.ReactNode }[] = [
+  {
+    q: "איך יוצרים חשבון ב־Meno?",
+    a: "מורידים את Meno מ-App Store, פותחים את האפליקציה ועוקבים אחרי תהליך ההרשמה הקצר. כל המעקב מתחיל ישירות אחרי ההרשמה.",
+  },
+  {
+    q: "האם המידע שלי פרטי?",
+    a: (
+      <>
+        מידע על תסמינים, מחזור ודימום הוא מידע אישי ורגיש, ו־Meno נבנתה מתוך
+        התייחסות לכך. את הפרטים המלאים — איך המידע נשמר, מתי הוא נמחק, ומה
+        נמצא בשליטתך — אפשר לקרוא ב<Link href="/privacy">מדיניות הפרטיות</Link>.
+      </>
+    ),
+  },
+  {
+    q: "איך מוחקים את החשבון?",
+    a: (
+      <>
+        אפשר למחוק את החשבון דרך מסך הפרופיל באפליקציה, או לשלוח לנו בקשה
+        למייל{" "}
+        <a href="mailto:support@menoapp.health">support@menoapp.health</a> ונטפל
+        בה תוך כמה ימי עסקים. ראי גם את עמוד{" "}
+        <Link href="/delete-account">מחיקת חשבון</Link>.
+      </>
+    ),
+  },
+  {
+    q: "האם Meno מחליפה ייעוץ רפואי?",
+    a: "לא. Meno היא כלי תיעוד ומעקב — לא כלי אבחון או טיפול. בכל החלטה רפואית, התאמת טיפול הורמונלי, תוספים, או תסמינים שמטרידים אותך — חשוב להיוועץ ברופאה או ברופא מוסמך.",
+  },
+  {
+    q: "האם Meno זמינה גם לאנדרואיד?",
+    a: "כעת Meno זמינה ל-iPhone דרך App Store. גרסת אנדרואיד מתוכננת.",
+  },
+  {
+    q: "מצאתי באג או יש לי בקשה לשיפור — איך להעביר אלייכם?",
+    a: (
+      <>
+        נשמח לשמוע. שלחי מייל ל־
+        <a href="mailto:support@menoapp.health">support@menoapp.health</a> עם
+        תיאור קצר של מה שקרה, ואם אפשר גם צילום מסך. כל פנייה נקראת על־ידי
+        הצוות שעובד ישירות על האפליקציה.
+      </>
+    ),
+  },
+];
+
 export default function SupportPage() {
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        lineHeight: 1.6,
-        color: "#333",
-        maxWidth: 900,
-        margin: "0 auto",
-        padding: 20,
-        direction: "rtl",
-        fontSize: 18,
-      }}
-    >
-      <h1 style={{ fontSize: 28 }}>מרכז תמיכה</h1>
-      <p style={{ color: "#666", marginBottom: 32 }}>
-        נשמח לעזור לך בכל שאלה או בעיה
-      </p>
-
-      <div
-        style={{
-          background: "#5C3D6E",
-          borderRadius: 16,
-          padding: "32px 28px",
-          color: "white",
-          textAlign: "center",
-          marginBottom: 40,
-        }}
-      >
-        <h2 style={{ fontSize: 22, marginBottom: 8 }}>צריכה עזרה?</h2>
-        <p style={{ opacity: 0.85, marginBottom: 20, fontSize: 16 }}>
-          צוות התמיכה שלנו כאן בשבילך. שלחי לנו מייל ונחזור אלייך בהקדם.
-        </p>
-        <a
-          href="mailto:support@menoapp.health"
-          style={{
-            display: "inline-block",
-            padding: "12px 32px",
-            background: "white",
-            color: "#5C3D6E",
-            borderRadius: 10,
-            textDecoration: "none",
-            fontSize: 16,
-            fontWeight: 600,
-          }}
-        >
-          support@menoapp.health
-        </a>
+    <div className="lp">
+      <div className="lp-top-banner">
+        השקה ראשונית · אפליקציה בעברית למעקב תסמיני טרום גיל המעבר וגיל המעבר
       </div>
 
-      <h2 style={{ fontSize: 22, marginBottom: 20 }}>שאלות נפוצות</h2>
+      <header className="lp-header">
+        <div className="lp-container lp-nav">
+          <Link href="/" className="lp-logo" aria-label="Meno home">
+            <img
+              src="/logo.png"
+              alt=""
+              className="lp-logo-img"
+              loading="lazy"
+              decoding="async"
+            />
+            <span>Meno</span>
+          </Link>
+          <nav className="lp-nav-links" aria-label="ניווט ראשי">
+            <Link href="/#why">למה לעקוב</Link>
+            <Link href="/#track">מה אפשר לעקוב</Link>
+            <Link href="/#faq">שאלות נפוצות</Link>
+            <Link href="/#privacy">פרטיות</Link>
+            <Link href="/support">תמיכה</Link>
+          </nav>
+          <Link className="lp-btn lp-btn-primary" href="/#download">
+            התחילי לעקוב
+          </Link>
+        </div>
+      </header>
 
-      <div
-        style={{
-          background: "#f9f9f9",
-          border: "1px solid #e5e5e5",
-          borderRadius: 12,
-          padding: "20px 24px",
-          marginBottom: 16,
-        }}
-      >
-        <h3 style={{ fontSize: 17, marginBottom: 6 }}>איך יוצרים חשבון?</h3>
-        <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8 }}>
-          הורידי את Meno מחנות האפליקציות, הזיני את מספר הטלפון שלך וקבלי קוד
-          אימות ב-SMS. זה הכל!
-        </p>
-      </div>
+      <main>
+        <section className="lp-section">
+          <div className="lp-container">
+            <div className="lp-section-header">
+              <h1>מרכז תמיכה</h1>
+              <p>
+                ריכזנו כאן את השאלות שאנחנו שומעות הכי הרבה. אם משהו לא מופיע
+                — נשמח שתכתבי לנו.
+              </p>
+            </div>
 
-      <div
-        style={{
-          background: "#f9f9f9",
-          border: "1px solid #e5e5e5",
-          borderRadius: 12,
-          padding: "20px 24px",
-          marginBottom: 16,
-        }}
-      >
-        <h3 style={{ fontSize: 17, marginBottom: 6 }}>
-          האם המידע שלי מוגן?
-        </h3>
-        <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8 }}>
-          בהחלט. כל הנתונים שלך מוצפנים ומאובטחים. אנחנו לא מוכרות ולא משתפות
-          מידע אישי עם צדדים שלישיים. קראי עוד ב
-          <a href="/privacy" style={{ color: "#5C3D6E" }}>
-            מדיניות הפרטיות
-          </a>{" "}
-          שלנו.
-        </p>
-      </div>
+            <div className="lp-trust-block" style={{ textAlign: "right" }}>
+              <h3>צריכה עזרה? כתבי לנו</h3>
+              <p>
+                שלחי מייל ל־{" "}
+                <a href="mailto:support@menoapp.health">
+                  support@menoapp.health
+                </a>{" "}
+                ונחזור אלייך בהקדם. כל פנייה מגיעה ישירות לצוות שעובד על
+                Meno — לא למוקד שירות חיצוני.
+              </p>
+            </div>
+          </div>
+        </section>
 
-      <div
-        style={{
-          background: "#f9f9f9",
-          border: "1px solid #e5e5e5",
-          borderRadius: 12,
-          padding: "20px 24px",
-          marginBottom: 16,
-        }}
-      >
-        <h3 style={{ fontSize: 17, marginBottom: 6 }}>
-          איך מוחקים את החשבון?
-        </h3>
-        <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8 }}>
-          ניתן למחוק את החשבון דרך מסך הפרופיל באפליקציה, או לפנות אלינו במייל
-          ונטפל בבקשה תוך 48 שעות.
-        </p>
-      </div>
+        <section className="lp-section lp-section-soft" id="faq">
+          <div className="lp-container">
+            <div className="lp-section-header">
+              <h2>שאלות נפוצות</h2>
+              <p>
+                מידע מעשי על השימוש ב-Meno, פרטיות, ומה היא לא מתיימרת להחליף.
+              </p>
+            </div>
 
-      <div
-        style={{
-          background: "#f9f9f9",
-          border: "1px solid #e5e5e5",
-          borderRadius: 12,
-          padding: "20px 24px",
-          marginBottom: 16,
-        }}
-      >
-        <h3 style={{ fontSize: 17, marginBottom: 6 }}>
-          האפליקציה מחליפה ייעוץ רפואי?
-        </h3>
-        <p style={{ color: "#666", fontSize: 15, lineHeight: 1.8 }}>
-          לא. Meno מספקת מידע כללי וליווי אישי, אך אינה מחליפה ייעוץ רפואי
-          מקצועי. בכל שאלה רפואית, יש לפנות לרופאה.
-        </p>
-      </div>
+            <div className="lp-faq">
+              {SUPPORT_FAQ.map(({ q, a }, i) => (
+                <details key={i} className="lp-faq-item">
+                  <summary>
+                    <span className="lp-faq-q">{q}</span>
+                    <span className="lp-faq-icon" aria-hidden="true" />
+                  </summary>
+                  <div className="lp-faq-answer">
+                    <p>{a}</p>
+                  </div>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
 
-      <p
-        style={{
-          marginTop: 60,
-          paddingTop: 24,
-          borderTop: "1px solid #ddd",
-          color: "#888",
-          fontSize: 14,
-        }}
-      >
-        &copy; 2026 Meno Health Ltd. כל הזכויות שמורות.
-      </p>
+        <section className="lp-section lp-section-disclaimer">
+          <div className="lp-container">
+            <div className="lp-trust-block">
+              <h3>נבנתה כדי לעזור לך לעקוב — לא כדי לאבחן</h3>
+              <p>
+                Meno עוזרת לך לתעד תסמינים, מחזור, דימום, תרופות, תוספים
+                ושינויים לאורך זמן. היא אינה מחליפה ייעוץ רפואי, אבחון או
+                טיפול. במקרה של דימום חריג, כאבים חזקים, תסמינים חדשים או חשש
+                רפואי — יש לפנות לרופאה או לגורם רפואי מוסמך.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="lp-footer">
+        <div className="lp-container lp-footer-grid">
+          <div>© 2026 Meno. כל הזכויות שמורות.</div>
+          <div className="lp-footer-links">
+            <Link href="/#faq">שאלות נפוצות</Link>
+            <Link href="/privacy">מדיניות פרטיות</Link>
+            <Link href="/terms">תנאי שימוש</Link>
+            <Link href="/support">תמיכה</Link>
+            <a href="mailto:contact@menoapp.health">צרי קשר</a>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }
