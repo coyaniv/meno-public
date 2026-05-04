@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { CookiePreferencesButton } from "../cookie-consent-banner";
 
 export const metadata: Metadata = {
   title: "תמיכה",
@@ -170,6 +171,7 @@ export default function SupportPage() {
             <Link href="/terms">תנאי שימוש</Link>
             <Link href="/support">תמיכה</Link>
             <a href="mailto:contact@menoapp.health">צרי קשר</a>
+            <CookiePreferencesButton />
           </div>
         </div>
       </footer>

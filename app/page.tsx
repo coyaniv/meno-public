@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookiePreferencesButton } from "./cookie-consent-banner";
 
 const APP_STORE_URL =
   "https://apps.apple.com/il/app/meno-%D7%9C%D7%99%D7%95%D7%95%D7%99-%D7%90%D7%99%D7%A9%D7%99-%D7%9C%D7%92%D7%99%D7%9C-%D7%94%D7%9E%D7%A2%D7%91%D7%A8/id6759288559";
@@ -34,7 +35,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "איך מעקב אחרי תסמינים יכול לעזור לרופאת נשים?",
-    a: "במקום לתאר זיכרון מהשבועות האחרונים, אפשר להגיע עם תמונה ברורה של מה היה, באיזו תדירות, ואיך זה השתנה אחרי טיפול או שינוי באורח החיים. זה הופך את השיחה ממוקדת יותר ועוזר להתאים את הטיפול בצורה מדויקת יותר.",
+    a: "במקום לתאר זיכרון מהשבועות האחרונים, אפשר להגיע עם תמונה ברורה של מה היה, באיזו תדירות, ואיך זה השתנה אחרי טיפול או שינוי באורח החיים. זה יכול להפוך את השיחה לממוקדת יותר, ולעזור לרופאה לקבל תמונה מסודרת יותר בעת קבלת החלטות טיפוליות.",
   },
   {
     q: "כמה זמן צריך לעקוב כדי לראות דפוסים?",
@@ -312,7 +313,8 @@ export default function HomePage() {
                 מעקב של כמה שבועות עד חודשים יכול לעזור לראות את התמונה הרחבה:
                 מה חוזר על עצמו ובאיזה תבנית, מה מחמיר, מה משתפר, ואיך
                 התסמינים משפיעים על החיים. ואם את כבר נוטלת הורמונים או
-                תוספים — איך הם משפיעים והאם זה מספיק טוב עבורך?
+                תוספים — לתעד מה השתנה אחרי התחלת טיפול או תוסף, כדי שתוכלי
+                לשוחח על כך עם הרופאה.
               </p>
             </div>
             <div className="lp-card">
@@ -466,7 +468,8 @@ export default function HomePage() {
                   אחרי תקופה של מעקב, תוכלי לשתף עם הרופאה המטפלת מידע ברור
                   יותר על התסמינים, התדירות, ההשפעה על החיים, טיפול שניסית
                   ושינויים שקרו לאורך זמן. זה יכול להפוך את השיחה לממוקדת
-                  יותר, ואת התאמת הטיפול למדויקת יותר עבורך.
+                  יותר, ולעזור לרופאה לקבל תמונה מסודרת יותר בעת קבלת
+                  החלטות טיפוליות.
                 </p>
                 <p>
                   וגם אחרי שכבר התאזנת על טיפול מסוים — הדברים דינמיים
@@ -648,6 +651,12 @@ export default function HomePage() {
               </p>
             </div>
 
+            <div className="lp-faq-notice" role="note">
+              המידע בעמוד זה הוא מידע כללי בלבד. הוא אינו אבחון, אינו ייעוץ
+              רפואי ואינו מחליף פנייה לרופא/ה. בכל תסמין חריג, דימום חריג,
+              כאב משמעותי או חשש רפואי — יש לפנות לגורם רפואי מוסמך.
+            </div>
+
             <div className="lp-faq">
               {FAQ.map(({ q, a }, i) => (
                 <details key={i} className="lp-faq-item" data-event="click_faq_question" data-q-index={i}>
@@ -707,30 +716,25 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="lp-section lp-section-disclaimer">
-          <div className="lp-container">
-            <div className="lp-trust-block">
-              <h3>נבנתה כדי לעזור לך לעקוב — לא כדי לאבחן</h3>
-              <p>
-                Meno עוזרת לך לתעד תסמינים, מחזור, דימום, תרופות, תוספים
-                ושינויים לאורך זמן. היא אינה מחליפה ייעוץ רפואי, אבחון או
-                טיפול. במקרה של דימום חריג, כאבים חזקים, תסמינים חדשים או חשש
-                רפואי — יש לפנות לרופאה או לגורם רפואי מוסמך.
-              </p>
-            </div>
-          </div>
-        </section>
       </main>
 
       <footer className="lp-footer">
-        <div className="lp-container lp-footer-grid">
-          <div>© 2026 Meno. כל הזכויות שמורות.</div>
-          <div className="lp-footer-links">
-            <a href="#faq">שאלות נפוצות</a>
-            <Link href="/privacy">מדיניות פרטיות</Link>
-            <Link href="/terms">תנאי שימוש</Link>
-            <Link href="/support">תמיכה</Link>
-            <a href="mailto:contact@menoapp.health">צרי קשר</a>
+        <div className="lp-container">
+          <p className="lp-footer-disclaimer">
+            Meno מסייעת לך לעקוב אחר תסמינים ושינויים לאורך זמן ולהגיע מוכנה
+            יותר לשיחה עם הרופא/ה. המידע באפליקציה אינו מהווה ייעוץ רפואי,
+            אבחון או טיפול.
+          </p>
+          <div className="lp-footer-grid">
+            <div>© 2026 Meno. כל הזכויות שמורות.</div>
+            <div className="lp-footer-links">
+              <a href="#faq">שאלות נפוצות</a>
+              <Link href="/privacy">מדיניות פרטיות</Link>
+              <Link href="/terms">תנאי שימוש</Link>
+              <Link href="/support">תמיכה</Link>
+              <a href="mailto:contact@menoapp.health">צרי קשר</a>
+              <CookiePreferencesButton />
+            </div>
           </div>
         </div>
       </footer>

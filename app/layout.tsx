@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Script from "next/script";
 import AnalyticsTracker from "./analytics-tracker";
+import CookieConsentBanner from "./cookie-consent-banner";
 import "./globals.css";
 
 const GA_ID = "G-2FFG3DVB2K";
@@ -77,6 +78,7 @@ gtag('config', '${GA_ID}');`}
         </Script>
         <AnalyticsTracker />
         {children}
+        <CookieConsentBanner />
       </body>
     </html>
   );
