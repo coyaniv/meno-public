@@ -4,8 +4,12 @@ import { CookiePreferencesButton } from "./cookie-consent-banner";
 const APP_STORE_URL =
   "https://apps.apple.com/il/app/meno-%D7%9C%D7%99%D7%95%D7%95%D7%99-%D7%90%D7%99%D7%A9%D7%99-%D7%9C%D7%92%D7%99%D7%9C-%D7%94%D7%9E%D7%A2%D7%91%D7%A8/id6759288559";
 
-function buildAppStoreUrl(medium: string) {
-  return `${APP_STORE_URL}?utm_source=landing_page&utm_medium=${medium}&utm_campaign=beta_launch`;
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=health.menoapp.android";
+
+function withUtm(url: string, medium: string) {
+  const separator = url.includes("?") ? "&" : "?";
+  return `${url}${separator}utm_source=landing_page&utm_medium=${medium}&utm_campaign=launch`;
 }
 
 const FAQ: { q: string; a: string }[] = [
@@ -55,7 +59,7 @@ const FAQ: { q: string; a: string }[] = [
   },
   {
     q: "האם Meno זמינה לאייפון ולאנדרואיד?",
-    a: "Meno זמינה כעת לאייפון בחנות App Store. גרסת אנדרואיד מתוכננת.",
+    a: "כן. Meno זמינה לאייפון בחנות App Store ולאנדרואיד בחנות Google Play.",
   },
 ];
 
@@ -74,6 +78,7 @@ const WEBSITE_JSONLD = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "Meno",
+  alternateName: ["מנו", "Meno — אפליקציה לגיל המעבר"],
   url: "https://menoapp.health/",
   inLanguage: "he",
   description:
@@ -88,9 +93,10 @@ const MOBILE_APP_JSONLD = {
     "אפליקציה בעברית למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה — מחזור, דימום, שינה, מצב רוח, תרופות ותוספים.",
   applicationCategory: "HealthApplication",
   applicationSubCategory: "Menopause symptom tracker",
-  operatingSystem: "iOS",
+  operatingSystem: "iOS, Android",
   inLanguage: "he",
   url: APP_STORE_URL,
+  downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
   offers: { "@type": "Offer", price: "0", priceCurrency: "ILS" },
   publisher: { "@type": "Organization", name: "Meno" },
 };
@@ -684,7 +690,7 @@ export default function HomePage() {
               <div className="lp-download-badges">
                 <a
                   className="lp-store-link"
-                  href={buildAppStoreUrl("download_section_apple")}
+                  href={withUtm(APP_STORE_URL, "download_section_apple")}
                   aria-label="הורדה מ-App Store"
                   data-event="click_app_store_download_section"
                 >
@@ -695,10 +701,11 @@ export default function HomePage() {
                     decoding="async"
                   />
                 </a>
-                <span
-                  className="lp-store-link lp-store-link-coming"
-                  aria-disabled="true"
-                  aria-label="Google Play — בקרוב"
+                <a
+                  className="lp-store-link"
+                  href={withUtm(GOOGLE_PLAY_URL, "download_section_google")}
+                  aria-label="הורדה מ-Google Play"
+                  data-event="click_google_play_download_section"
                 >
                   <img
                     src="/badge-googleplay.svg"
@@ -706,11 +713,10 @@ export default function HomePage() {
                     loading="lazy"
                     decoding="async"
                   />
-                  <span className="lp-store-coming-pill">בקרוב</span>
-                </span>
+                </a>
               </div>
               <p className="lp-download-note">
-                Meno זמינה כעת לאייפון. גרסת אנדרויד מתוכננת.
+                Meno זמינה לאייפון בחנות App Store ולאנדרואיד בחנות Google Play.
               </p>
             </div>
           </div>

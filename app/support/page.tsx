@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 const SUPPORT_FAQ: { q: string; a: React.ReactNode }[] = [
   {
     q: "איך יוצרים חשבון ב־Meno?",
-    a: "מורידים את Meno מ-App Store, פותחים את האפליקציה ועוקבים אחרי תהליך ההרשמה הקצר. כל המעקב מתחיל ישירות אחרי ההרשמה.",
+    a: "מורידים את Meno מ-App Store או מ-Google Play, פותחים את האפליקציה ועוקבים אחרי תהליך ההרשמה הקצר. כל המעקב מתחיל ישירות אחרי ההרשמה.",
   },
   {
     q: "האם המידע שלי פרטי?",
@@ -50,7 +50,7 @@ const SUPPORT_FAQ: { q: string; a: React.ReactNode }[] = [
   },
   {
     q: "האם Meno זמינה גם לאנדרואיד?",
-    a: "כעת Meno זמינה ל-iPhone דרך App Store. גרסת אנדרואיד מתוכננת.",
+    a: "כן. Meno זמינה ל-iPhone דרך App Store ולאנדרואיד דרך Google Play.",
   },
   {
     q: "מצאתי באג או יש לי בקשה לשיפור — איך להעביר אלייכם?",

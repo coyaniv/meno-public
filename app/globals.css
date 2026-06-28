@@ -977,32 +977,6 @@ a.lp-store-link:hover {
   transform: translateY(-3px) scale(1.02);
 }
 
-.lp-store-link-coming {
-  cursor: default;
-  opacity: 0.55;
-  filter: grayscale(0.4);
-}
-
-.lp-store-link-coming:hover {
-  transform: none;
-}
-
-.lp-store-coming-pill {
-  position: absolute;
-  top: -10px;
-  inset-inline-start: 50%;
-  transform: translateX(-50%);
-  background: var(--lp-primary);
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  padding: 3px 10px;
-  border-radius: 999px;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(176, 99, 255, 0.3);
-}
-
 .lp-download-note {
   font-size: 15px !important;
   color: var(--lp-muted) !important;
