@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { SiteHeader } from "../site-chrome";
 import { CookiePreferencesButton } from "../cookie-consent-banner";
 
 export const metadata: Metadata = {
@@ -20,34 +21,7 @@ export const metadata: Metadata = {
 export default function DeleteAccountPage() {
   return (
     <div className="lp">
-      <div className="lp-top-banner">
-        השקה ראשונית · אפליקציה בעברית למעקב תסמיני טרום גיל המעבר וגיל המעבר
-      </div>
-
-      <header className="lp-header">
-        <div className="lp-container lp-nav">
-          <Link href="/" className="lp-logo" aria-label="Meno home">
-            <img
-              src="/logo.png"
-              alt=""
-              className="lp-logo-img"
-              loading="lazy"
-              decoding="async"
-            />
-            <span>Meno</span>
-          </Link>
-          <nav className="lp-nav-links" aria-label="ניווט ראשי">
-            <Link href="/#why">למה לעקוב</Link>
-            <Link href="/#track">מה אפשר לעקוב</Link>
-            <Link href="/#faq">שאלות נפוצות</Link>
-            <Link href="/#privacy">פרטיות</Link>
-            <Link href="/support">תמיכה</Link>
-          </nav>
-          <Link className="lp-btn lp-btn-primary" href="/#download">
-            התחילי לעקוב
-          </Link>
-        </div>
-      </header>
+      <SiteHeader />
 
       <main>
         <section className="lp-section">

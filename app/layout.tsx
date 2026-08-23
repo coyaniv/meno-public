@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import Script from "next/script";
 import AnalyticsTracker from "./analytics-tracker";
 import CookieConsentBanner from "./cookie-consent-banner";
+import GoogleAnalytics from "./google-analytics";
+import PostHogProvider from "./posthog";
 import "./globals.css";
-
-const GA_ID = "G-2FFG3DVB2K";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://menoapp.health"),
@@ -66,16 +65,8 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <body>
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="ga-init" strategy="afterInteractive">
-          {`window.dataLayer = window.dataLayer || [];
-window.gtag = function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', '${GA_ID}');`}
-        </Script>
+        <GoogleAnalytics />
+        <PostHogProvider />
         <AnalyticsTracker />
         {children}
         <CookieConsentBanner />

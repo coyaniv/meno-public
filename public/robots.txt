@@ -10,28 +10,37 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
-# Block training crawlers — opt out of model training data collection.
+# Training crawlers are allowed. These are published marketing articles with no
+# user data in them, and Hebrew menopause content is thin enough that being part
+# of the corpus is worth more than opting out of it.
+#
+# Google-Extended is listed for clarity: allowing it affects Gemini grounding
+# only. AI Overviews run on plain Googlebot, which was never blocked.
 User-agent: GPTBot
-Disallow: /
+Allow: /
 
 User-agent: ClaudeBot
-Disallow: /
+Allow: /
 
 User-agent: anthropic-ai
-Disallow: /
+Allow: /
 
 User-agent: Google-Extended
-Disallow: /
+Allow: /
 
 User-agent: Applebot-Extended
-Disallow: /
+Allow: /
 
 User-agent: CCBot
-Disallow: /
+Allow: /
 
 User-agent: cohere-ai
-Disallow: /
+Allow: /
 
+# Still blocked: aggressive scrapers that return no citation or referral value.
+# FacebookBot is the training crawler — facebookexternalhit, which renders the
+# link previews on WhatsApp and Facebook shares, is a different agent and stays
+# allowed by the wildcard above. The quiz share button depends on it.
 User-agent: Bytespider
 Disallow: /
 
@@ -60,3 +69,6 @@ Allow: /
 
 User-agent: Applebot
 Allow: /
+
+# Structured summary of the site for answer engines.
+LLM-Content: https://menoapp.health/llms.txt

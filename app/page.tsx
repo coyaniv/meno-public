@@ -1,16 +1,8 @@
 import Link from "next/link";
-import { CookiePreferencesButton } from "./cookie-consent-banner";
-
-const APP_STORE_URL =
-  "https://apps.apple.com/il/app/meno-%D7%9C%D7%99%D7%95%D7%95%D7%99-%D7%90%D7%99%D7%A9%D7%99-%D7%9C%D7%92%D7%99%D7%9C-%D7%94%D7%9E%D7%A2%D7%91%D7%A8/id6759288559";
-
-const GOOGLE_PLAY_URL =
-  "https://play.google.com/store/apps/details?id=health.menoapp.android";
-
-function withUtm(url: string, medium: string) {
-  const separator = url.includes("?") ? "&" : "?";
-  return `${url}${separator}utm_source=landing_page&utm_medium=${medium}&utm_campaign=launch`;
-}
+import { SiteHeader, SiteFooter } from "./site-chrome";
+import ReferralBanner from "./referral-banner";
+import { ARTICLES } from "./guide/articles";
+import { APP_STORE_URL, GOOGLE_PLAY_URL, PHYSICIAN, appStoreLink, playStoreLink } from "./shared";
 
 const FAQ: { q: string; a: string }[] = [
   {
@@ -30,24 +22,8 @@ const FAQ: { q: string; a: string }[] = [
     a: "אין דרך לאבחן זאת לבד. מעקב מסודר אחרי תסמינים, מחזור ודימום יכול לעזור לזהות דפוסים, אבל בכל תסמין חריג, דימום בלתי שגרתי או חשש — חשוב לפנות לרופאת נשים. Meno היא כלי תיעוד, לא כלי אבחון.",
   },
   {
-    q: "למה המחזור נהיה לא סדיר בפרימנופאוזה?",
-    a: "במהלך הפרימנופאוזה רמות ההורמונים משתנות בצורה לא צפויה. זה גורם למחזור להופיע בתדירות שונה, להיות חזק או חלש יותר מהרגיל, ולפעמים לדלג על חודשים שלמים. תיעוד עוזר לראות את התבנית שמתגבשת לאורך זמן.",
-  },
-  {
-    q: "האם כדאי לעקוב אחרי דימום ומחזור בגיל המעבר?",
-    a: "כן — תיעוד מסודר של מחזור, דימום ושינויים בעוצמה הוא אחד הכלים השימושיים ביותר לשיחה עם רופאת נשים. במקרה של דימום אחרי הפסקת מחזור, דימום בין וסתות חזק או כל דימום חריג, חשוב לפנות לרופאה במקום להמתין.",
-  },
-  {
-    q: "איך מעקב אחרי תסמינים יכול לעזור לרופאת נשים?",
-    a: "במקום לתאר זיכרון מהשבועות האחרונים, אפשר להגיע עם תמונה ברורה של מה היה, באיזו תדירות, ואיך זה השתנה אחרי טיפול או שינוי באורח החיים. זה יכול להפוך את השיחה לממוקדת יותר, ולעזור לרופאה לקבל תמונה מסודרת יותר בעת קבלת החלטות טיפוליות.",
-  },
-  {
     q: "כמה זמן צריך לעקוב כדי לראות דפוסים?",
     a: "בדרך כלל אחרי שלושה עד שישה שבועות מתחילים להופיע דפוסים — אילו תסמינים חוזרים, באיזה תזמון, ומה אולי משפיע. ככל שעוקבים יותר זמן, התמונה נעשית ברורה יותר ואפשר להבחין גם בשינויים שקרו אחרי טיפול.",
-  },
-  {
-    q: "האם Meno מתאימה גם למי שעדיין מקבלת מחזור?",
-    a: "כן. הרבה נשים בפרימנופאוזה ממשיכות לקבל מחזור — לעיתים סדיר, לעיתים לא. Meno עוזרת לתעד גם את המחזור עצמו וגם את התסמינים שמתחילים להופיע סביבו, כדי שתהיה לך תמונה רציפה לאורך כל השלב הזה.",
   },
   {
     q: "האם Meno מחליפה ייעוץ רפואי?",
@@ -72,6 +48,7 @@ const ORGANIZATION_JSONLD = {
   email: "contact@menoapp.health",
   areaServed: { "@type": "Country", name: "Israel" },
   inLanguage: "he",
+  sameAs: [APP_STORE_URL, GOOGLE_PLAY_URL],
 };
 
 const WEBSITE_JSONLD = {
@@ -97,14 +74,17 @@ const MOBILE_APP_JSONLD = {
   inLanguage: "he",
   url: APP_STORE_URL,
   downloadUrl: [APP_STORE_URL, GOOGLE_PLAY_URL],
+  screenshot: "https://menoapp.health/screenshot.png",
   offers: { "@type": "Offer", price: "0", priceCurrency: "ILS" },
   publisher: { "@type": "Organization", name: "Meno" },
+  contributor: PHYSICIAN,
 };
 
 const FAQ_JSONLD = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
   inLanguage: "he",
+  reviewedBy: PHYSICIAN,
   mainEntity: FAQ.map(({ q, a }) => ({
     "@type": "Question",
     name: q,
@@ -196,86 +176,139 @@ const Icons = {
   ),
 };
 
+const TRACK_CARDS = [
+  {
+    icon: Icons.pulse,
+    title: "תסמינים",
+    text: "גלי חום, הזעות לילה, שינה, מצב רוח, עייפות, כאבים, ערפול מוחי ועוד.",
+  },
+  {
+    icon: Icons.drop,
+    title: "מחזור ודימום",
+    text: "מחזור לא סדיר, דימום בין וסתות, שינויים בתדירות ובעוצמה — וכל דימום חריג שחשוב לדווח לרופאה.",
+  },
+  {
+    icon: Icons.pill,
+    title: "תרופות, הורמונים ותוספים",
+    text: "טיפול הורמונלי, שינוי מינון, התחלה או הפסקה של טיפול — ומה השתנה בעקבותיהם.",
+  },
+  {
+    icon: Icons.sparkle,
+    title: "טריגרים ואורח חיים",
+    text: "סטרס, אלכוהול, קפה, נסיעות ופעילות — המרכיבים שמשפיעים יותר ממה שנראה.",
+  },
+  {
+    icon: Icons.moon,
+    title: "שינה ופעילות",
+    text: "חיבור ל־Apple Health או שעון חכם מוסיף נתוני שינה ופעילות לתמונה.",
+  },
+  {
+    icon: Icons.trendUp,
+    title: "תמונה לאורך זמן",
+    text: "טרנדים, קשרים אפשריים ושינויים אחרי טיפול — במבט אחד.",
+  },
+];
+
+const PATTERN_ROWS = [
+  {
+    icon: Icons.bars,
+    title: "זיהוי טרנדים",
+    text: "האם התסמינים משתפרים, מחמירים או חוזרים בדפוס מסוים.",
+  },
+  {
+    icon: Icons.link,
+    title: "קשרים אפשריים",
+    text: "למשל בין שינה, סטרס, אלכוהול או פעילות לבין תסמינים.",
+  },
+  {
+    icon: Icons.compass,
+    title: "מעקב אחרי טיפול",
+    text: "מה קרה אחרי התחלת תרופה, תוסף או שינוי בטיפול.",
+  },
+];
+
+const COMPARE_ROWS = [
+  { before: "מנסה לזכור מה קרה החודש", after: "רואה תיעוד יומי מסודר" },
+  { before: "קשה להבין אם טיפול עזר", after: "רואה שינוי לאורך זמן" },
+  { before: "שיחה כללית עם הרופאה", after: "מגיעה עם תמונה ברורה יותר" },
+  {
+    before: "תסמינים מנותקים מהקשר",
+    after: "רואה קשרים אפשריים לשינה, סטרס, אירועים וטיפול",
+  },
+];
+
+const AUDIENCE = [
+  "את בפרימנופאוזה או בגיל המעבר ורוצה להבין מה קורה בגוף",
+  "יש לך גלי חום, שינה לא טובה, מצב רוח משתנה או עייפות",
+  "המחזור השתנה או שיש דימום שאת רוצה לתעד",
+  "התחלת טיפול או תוסף ורוצה לעקוב אחרי ההשפעה לאורך זמן",
+  "את רוצה להגיע לרופאה עם מידע מסודר ולא רק תחושה כללית",
+  "יש לך שעון חכם ואת רוצה לשלב נתוני שינה ופעילות",
+];
+
 export default function HomePage() {
   return (
     <div className="lp">
+      <link rel="preload" as="image" href="/meno_woman_phone.webp" />
       <JsonLd data={ORGANIZATION_JSONLD} />
       <JsonLd data={WEBSITE_JSONLD} />
       <JsonLd data={MOBILE_APP_JSONLD} />
       <JsonLd data={FAQ_JSONLD} />
 
-      <div className="lp-top-banner">
-        השקה ראשונית · אפליקציה בעברית למעקב תסמיני טרום גיל המעבר וגיל המעבר
-      </div>
+      <ReferralBanner />
 
-      <header className="lp-header">
-        <div className="lp-container lp-nav">
-          <Link href="/" className="lp-logo" aria-label="Meno home">
-            <img
-              src="/logo.png"
-              alt=""
-              className="lp-logo-img"
-              loading="lazy"
-              decoding="async"
-            />
-            <span>Meno</span>
-          </Link>
-          <nav className="lp-nav-links" aria-label="ניווט ראשי">
-            <a href="#why">למה לעקוב</a>
-            <a href="#track">מה אפשר לעקוב</a>
-            <a href="#patterns">דפוסים</a>
-            <a href="#doctor">לרופאה</a>
-            <a href="#faq">שאלות נפוצות</a>
-            <a href="#privacy">פרטיות</a>
-            <Link href="/support">תמיכה</Link>
-          </nav>
-          <a
-            className="lp-btn lp-btn-primary"
-            href="#download"
-            data-event="click_app_store_header"
-          >
-            להורדת האפליקציה
-          </a>
-        </div>
-      </header>
+      <SiteHeader home />
 
       <main id="top">
         <section className="lp-hero">
           <div className="lp-container lp-hero-grid">
             <div>
-              <div className="lp-eyebrow">מעקב חכם לגיל המעבר · בעברית</div>
-              <h1 className="lp-hero-title">
-                אפליקציה למעקב אחרי תסמיני גיל המעבר ופרימנופאוזה
-              </h1>
+              <div className="lp-eyebrow">
+                אפליקציה בעברית למעקב גיל המעבר ופרימנופאוזה
+              </div>
+              <h1 className="lp-hero-title">לעשות סדר במה שהגוף שלך מספר בגיל המעבר</h1>
               <p className="lp-hero-lead">
-                עקבי אחרי גלי חום, שינה, מצב רוח, מחזור, דימום, תרופות ותוספים
-                — וראי דפוסים לאורך זמן במקום לנסות לזכור הכול לבד.
+                תיעוד פשוט של גלי חום, שינה, מצב רוח, מחזור ותרופות — כדי
+                לראות דפוסים לאורך זמן ולהגיע לרופאה עם תמונה ברורה, לא עם
+                זיכרון מעורפל.
               </p>
               <div className="lp-hero-actions">
                 <a
-                  className="lp-btn lp-btn-primary"
-                  href="#download"
-                  data-event="click_app_store_hero"
+                  className="lp-store-link"
+                  href={appStoreLink("web_hero")}
+                  aria-label="הורדה מ-App Store"
+                  data-event="store_click"
+                  data-store="ios"
                 >
-                  להורדת האפליקציה
+                  <img src="/badge-appstore.svg" alt="App Store" />
+                </a>
+                <a
+                  className="lp-store-link"
+                  href={playStoreLink("web_hero")}
+                  aria-label="הורדה מ-Google Play"
+                  data-event="store_click"
+                  data-store="android"
+                >
+                  <img src="/badge-googleplay.svg" alt="Google Play" />
                 </a>
                 <a className="lp-btn lp-btn-secondary" href="#why">
                   איך זה עובד?
                 </a>
               </div>
               <div className="lp-trust-line">
-                חינמית להתחלה · בעברית · לא מחליפה ייעוץ רפואי
+                חינמית · בעברית · לא מחליפה ייעוץ רפואי
               </div>
             </div>
 
             <div className="lp-hero-photo">
-              <div className="lp-hero-shape" aria-hidden="true" />
-              <div className="lp-hero-shape-2" aria-hidden="true" />
               <div className="lp-hero-photo-frame">
                 <img
-                  src="/meno_woman_phone.png"
+                  src="/meno_woman_phone.webp"
                   alt="אישה בגיל המעבר עוקבת אחרי תסמינים באפליקציית Meno"
+                  width={1024}
+                  height={1024}
                   loading="eager"
+                  fetchPriority="high"
                   decoding="async"
                 />
               </div>
@@ -309,22 +342,18 @@ export default function HomePage() {
             <div>
               <h2>קשה להבין דפוסים מזיכרון בלבד</h2>
               <p>
-                בגיל המעבר ובפרימנופאוזה (טרום גיל המעבר), תסמינים יכולים
-                להשתנות מיום ליום ובמהלך החודש. גלי חום, שינה לא רציפה, שינויי
-                מצב רוח, עייפות, מחזור לא סדיר או דימום — קשה לזכור מה קרה,
-                מתי, ומה אולי השפיע. גם בשלב המנופאוזה עצמה התסמינים ממשיכים
-                להשתנות לאורך זמן.
+                בגיל המעבר ובפרימנופאוזה, תסמינים משתנים מיום ליום ובמהלך
+                החודש. גלי חום, שינה לא רציפה, שינויי מצב רוח, מחזור לא סדיר —
+                קשה לזכור מה קרה, מתי, ומה אולי השפיע.
               </p>
               <p>
-                מעקב של כמה שבועות עד חודשים יכול לעזור לראות את התמונה הרחבה:
-                מה חוזר על עצמו ובאיזה תבנית, מה מחמיר, מה משתפר, ואיך
-                התסמינים משפיעים על החיים. ואם את כבר נוטלת הורמונים או
-                תוספים — לתעד מה השתנה אחרי התחלת טיפול או תוסף, כדי שתוכלי
+                מעקב של כמה שבועות מראה את התמונה הרחבה: מה חוזר, מה מחמיר,
+                מה משתפר — ומה השתנה אחרי התחלת טיפול או תוסף, כדי שתוכלי
                 לשוחח על כך עם הרופאה.
               </p>
             </div>
-            <div className="lp-card">
-              <div className="lp-icon">✓</div>
+            <div className="lp-card lp-card-cream">
+              <div className="lp-icon lp-icon-dark">✓</div>
               <h3>עקבי כמה שבועות. זהי דפוסים. הגיעי מוכנה יותר לרופאה.</h3>
               <p>
                 במקום לנסות לשחזר הכל מהראש, Meno עוזרת לך לבנות תמונה מסודרת
@@ -337,89 +366,44 @@ export default function HomePage() {
         <section className="lp-section" id="track">
           <div className="lp-container">
             <div className="lp-section-header">
-              <h2>מה Meno מאפשרת לתעד?</h2>
+              <h2>מה מתעדים ב-Meno?</h2>
               <p>
-                תיעוד פשוט של תסמינים, אירועים, טיפול ומדדים שיכולים לעזור להבין
-                מה באמת קורה לאורך זמן.
+                תיעוד פשוט של תסמינים, מחזור, טיפול ואורח חיים — הקבוצות
+                שמרכיבות יחד תמונה אמיתית לאורך זמן.
               </p>
             </div>
 
             <div className="lp-grid-3">
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.pulse}</div>
-                <h3>תסמינים</h3>
-                <p>
-                  גלי חום, הזעות לילה, שינה, מצב רוח, עייפות, כאבים, ערפול מוחי
-                  ועוד.
-                </p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.drop}</div>
-                <h3>מחזור ודימום</h3>
-                <p>
-                  תיעוד מחזור, דימום, שינויים בתדירות ובעוצמה לאורך זמן.
-                </p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.sparkle}</div>
-                <h3>אירועים ואורח חיים</h3>
-                <p>
-                  סטרס, נסיעות, אלכוהול, פעילות גופנית, שינויים בשגרה ועוד.
-                </p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.pill}</div>
-                <h3>תרופות ותוספים</h3>
-                <p>
-                  מעקב אחרי טיפול תרופתי, טיפול הורמונלי אם רלוונטי, תוספים
-                  ושינויים בטיפול.
-                </p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.moon}</div>
-                <h3>שינה ופעילות</h3>
-                <p>
-                  חיבור ל־Apple Health או שעון חכם כדי להוסיף נתוני שינה ופעילות
-                  לתמונה הכוללת.
-                </p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.trendUp}</div>
-                <h3>תמונה לאורך זמן</h3>
-                <p>
-                  מבט פשוט על טרנדים, קשרים אפשריים ושינויים אחרי טיפול או שינוי
-                  באורח החיים.
-                </p>
-              </div>
+              {TRACK_CARDS.map((c) => (
+                <div key={c.title} className="lp-card">
+                  <div className="lp-icon">{c.icon}</div>
+                  <h3>{c.title}</h3>
+                  <p>{c.text}</p>
+                </div>
+              ))}
             </div>
           </div>
         </section>
 
         <section className="lp-section lp-section-soft" id="patterns">
-          <div className="lp-container">
-            <div className="lp-section-header">
-              <h2>אחרי כמה שבועות, מתחילים לראות תמונה ברורה יותר</h2>
+          <div className="lp-container lp-split lp-split-top">
+            <div>
+              <h2>אחרי כמה שבועות, רואים תמונה ברורה יותר</h2>
               <p>
-                המעקב הופך תחושות יומיומיות למידע שאפשר להבין, להשוות ולשתף.
+                המעקב הופך תחושות יומיומיות למידע שאפשר להבין, להשוות ולשתף
+                עם הרופאה.
               </p>
             </div>
-
-            <div className="lp-grid-3">
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.bars}</div>
-                <h3>זיהוי טרנדים</h3>
-                <p>האם התסמינים משתפרים, מחמירים או חוזרים בדפוס מסוים.</p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.link}</div>
-                <h3>קשרים אפשריים</h3>
-                <p>למשל בין שינה, סטרס, אלכוהול, נסיעה או פעילות לבין תסמינים.</p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.compass}</div>
-                <h3>מעקב אחרי טיפול</h3>
-                <p>ראי מה קרה אחרי התחלת תרופה, תוסף או שינוי בטיפול.</p>
-              </div>
+            <div className="lp-pattern-rows">
+              {PATTERN_ROWS.map((r) => (
+                <div key={r.title} className="lp-pattern-row">
+                  <div className="lp-icon lp-icon-dark">{r.icon}</div>
+                  <div>
+                    <strong>{r.title}</strong>
+                    <span>{r.text}</span>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </section>
@@ -427,7 +411,7 @@ export default function HomePage() {
         <section className="lp-section">
           <div className="lp-container">
             <div className="lp-section-header">
-              <h2>בלי מעקב מסודר מול עם Meno</h2>
+              <h2>ההבדל שמעקב מסודר עושה</h2>
               <p>
                 הפער הוא לא בעוד מידע — אלא בארגון נכון של מה שכבר קורה לך
                 ביום־יום.
@@ -443,45 +427,25 @@ export default function HomePage() {
                 <div role="columnheader">בלי מעקב מסודר</div>
                 <div role="columnheader">עם Meno</div>
               </div>
-              <div className="lp-comparison-row" role="row">
-                <div role="cell">מנסה לזכור מה קרה החודש</div>
-                <div role="cell">רואה תיעוד יומי מסודר</div>
-              </div>
-              <div className="lp-comparison-row" role="row">
-                <div role="cell">קשה להבין אם טיפול עזר</div>
-                <div role="cell">רואה שינוי לאורך זמן</div>
-              </div>
-              <div className="lp-comparison-row" role="row">
-                <div role="cell">שיחה כללית עם הרופאה</div>
-                <div role="cell">מגיעה עם תמונה ברורה יותר</div>
-              </div>
-              <div className="lp-comparison-row" role="row">
-                <div role="cell">תסמינים מנותקים מהקשר</div>
-                <div role="cell">
-                  רואה קשרים אפשריים לשינה, סטרס, אירועים וטיפול
+              {COMPARE_ROWS.map((r) => (
+                <div key={r.before} className="lp-comparison-row" role="row">
+                  <div role="cell">{r.before}</div>
+                  <div role="cell">{r.after}</div>
                 </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="lp-section" id="doctor">
+        <section className="lp-section lp-section-soft" id="doctor">
           <div className="lp-container">
             <div className="lp-doctor-box">
               <div className="lp-doctor-text">
                 <h2>להגיע לרופאה עם תמונה מסודרת יותר</h2>
                 <p>
-                  אחרי תקופה של מעקב, תוכלי לשתף עם הרופאה המטפלת מידע ברור
-                  יותר על התסמינים, התדירות, ההשפעה על החיים, טיפול שניסית
-                  ושינויים שקרו לאורך זמן. זה יכול להפוך את השיחה לממוקדת
-                  יותר, ולעזור לרופאה לקבל תמונה מסודרת יותר בעת קבלת
-                  החלטות טיפוליות.
-                </p>
-                <p>
-                  וגם אחרי שכבר התאזנת על טיפול מסוים — הדברים דינמיים
-                  ומשתנים כל הזמן. במקום להיתקע על טיפול שכבר לא רלוונטי
-                  עבורך, המעקב יעזור לך ולרופאה לזהות שאולי צריך לעשות שוב
-                  שינוי והתאמה.
+                  אחרי תקופה של מעקב, תוכלי לשתף עם הרופאה מידע ברור על
+                  התסמינים, התדירות, ההשפעה על החיים ושינויים אחרי טיפול —
+                  שיחה ממוקדת יותר, החלטות מבוססות יותר.
                 </p>
                 <div className="lp-summary-card">
                   <strong>דוגמה לסיכום חודשי</strong>
@@ -505,16 +469,17 @@ export default function HomePage() {
                 <a
                   className="lp-btn lp-btn-on-dark"
                   href="#download"
-                  data-event="click_app_store_doctor"
-                  style={{ marginTop: 28, alignSelf: "flex-start" }}
+                  data-event="cta_download_doctor"
                 >
                   התחילי לבנות את המעקב שלך
                 </a>
               </div>
               <div className="lp-doctor-photo">
                 <img
-                  src="/meno_doctor_patient.png"
+                  src="/meno_doctor_patient.webp"
                   alt="אישה בגיל המעבר משוחחת עם רופאת נשים על תיעוד מסודר"
+                  width={1024}
+                  height={1024}
                   loading="lazy"
                   decoding="async"
                 />
@@ -523,13 +488,15 @@ export default function HomePage() {
           </div>
         </section>
 
-        <section className="lp-section lp-section-soft">
+        <section className="lp-section">
           <div className="lp-container lp-split">
             <div>
               <div className="lp-editorial-photo">
                 <img
-                  src="/meno_woman_relaxed.png"
+                  src="/meno_woman_relaxed.webp"
                   alt="אישה רגועה עם כוס קפה — עוקבת אחרי גיל המעבר בקצב שלה"
+                  width={1024}
+                  height={1024}
                   loading="lazy"
                   decoding="async"
                 />
@@ -545,130 +512,87 @@ export default function HomePage() {
                 לעזור לך לעשות סדר.
               </p>
               <ul className="lp-bullets">
-              <li>
-                <span className="lp-check">✓</span>
-                <span>את בפרימנופאוזה או בגיל המעבר ורוצה להבין מה קורה בגוף</span>
-              </li>
-              <li>
-                <span className="lp-check">✓</span>
-                <span>יש לך גלי חום, שינה לא טובה, מצב רוח משתנה או עייפות</span>
-              </li>
-              <li>
-                <span className="lp-check">✓</span>
-                <span>המחזור השתנה או שיש דימום שאת רוצה לתעד</span>
-              </li>
-              <li>
-                <span className="lp-check">✓</span>
-                <span>
-                  התחלת טיפול או תוסף ורוצה לעקוב אחרי השפעה לאורך זמן, וגם
-                  לעזור לרופאה להבין אם יש צורך בשינויים
-                </span>
-              </li>
-              <li>
-                <span className="lp-check">✓</span>
-                <span>את רוצה להגיע לרופאה עם מידע מסודר ולא רק תחושה כללית</span>
-              </li>
-              <li>
-                <span className="lp-check">✓</span>
-                <span>יש לך שעון חכם ואת רוצה לשלב נתוני שינה ופעילות</span>
-              </li>
-            </ul>
+                {AUDIENCE.map((item) => (
+                  <li key={item}>
+                    <span className="lp-check">✓</span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </section>
 
-        <section className="lp-section" id="what-to-track">
+        <section className="lp-section lp-section-soft" id="guides">
           <div className="lp-container">
-            <div className="lp-section-header">
-              <h2>מה כדאי לעקוב בגיל המעבר?</h2>
-              <p>
-                ארבע קבוצות שמרכיבות יחד תמונה אמיתית של מה שעובר עלייך
-                בפרימנופאוזה ובגיל המעבר.
-              </p>
+            <div className="lp-guides-head">
+              <div>
+                <h2>מדריכים על גיל המעבר ופרימנופאוזה</h2>
+                <p>מידע מעשי בעברית — מה קורה בגוף, מה נורמלי, ומתי לפנות לרופאה.</p>
+              </div>
+              <Link href="/guide" className="lp-guides-all">
+                לכל המדריכים ←
+              </Link>
             </div>
-
-            <div className="lp-grid-2">
-              <div className="lp-card">
-                <h3>תסמינים</h3>
-                <p>
-                  גלי חום, הזעות לילה, שינה לא רציפה, מצב רוח, עייפות, ערפול
-                  מוחי וכאבים.
-                </p>
-              </div>
-              <div className="lp-card">
-                <h3>מחזור ודימום</h3>
-                <p>
-                  מחזור לא סדיר בפרימנופאוזה, דימום בין וסתות, שינוי בעוצמה,
-                  וכל דימום חריג שחשוב לתעד ולדווח עליו לרופאה.
-                </p>
-              </div>
-              <div className="lp-card">
-                <h3>תרופות, הורמונים ותוספים</h3>
-                <p>
-                  טיפול הורמונלי, תרופות, תוספים, שינוי מינון, התחלה או הפסקה
-                  של טיפול — מתי ואיך השפיעו על התסמינים.
-                </p>
-              </div>
-              <div className="lp-card">
-                <h3>טריגרים ואורח חיים</h3>
-                <p>
-                  סטרס, אלכוהול, קפה, פעילות גופנית, איכות שינה ונסיעות —
-                  המרכיבים שלפעמים משפיעים יותר ממה שנראה.
-                </p>
-              </div>
+            <div className="lp-grid-3">
+              {ARTICLES.slice(0, 3).map((a) => (
+                <Link
+                  key={a.slug}
+                  href={`/guide/${a.slug}`}
+                  className="lp-card lp-guide-card"
+                >
+                  <h3>{a.title}</h3>
+                  <p>{a.metaDescription}</p>
+                  <span className="lp-guide-card-more">לקריאת המדריך ←</span>
+                </Link>
+              ))}
             </div>
           </div>
         </section>
 
-        <section className="lp-section lp-section-soft" id="privacy">
-          <div className="lp-container">
-            <div className="lp-section-header">
-              <h2>המידע שלך נשאר שלך</h2>
-              <p>
-                המעקב בגיל המעבר הוא אישי. Meno נבנתה כדי לאפשר לך לתעד מידע
-                רגיש בצורה פשוטה, דיסקרטית וברורה.
-              </p>
+        <section className="lp-section" id="privacy">
+          <div className="lp-container lp-grid-2">
+            <div className="lp-card">
+              <div className="lp-icon">{Icons.globe}</div>
+              <h3>עברית מלאה</h3>
+              <p>חוויה שמדברת בשפה שלך ומתאימה לנשים בישראל.</p>
             </div>
-            <div className="lp-grid-2">
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.globe}</div>
-                <h3>עברית מלאה</h3>
-                <p>חוויה שמדברת בשפה שלך ומתאימה לנשים בישראל.</p>
-              </div>
-              <div className="lp-card">
-                <div className="lp-icon">{Icons.lock}</div>
-                <h3>פרטיות ואמון</h3>
-                <p>
-                  אנחנו מתייחסים למידע על תסמינים, מחזור ודימום כמידע אישי
-                  ורגיש. ניתן לקרוא ב<Link href="/privacy">מדיניות הפרטיות</Link>{" "}
-                  כיצד המידע נשמר, מתי הוא נמחק, ומה נמצא בשליטתך.
-                </p>
-              </div>
+            <div className="lp-card">
+              <div className="lp-icon">{Icons.lock}</div>
+              <h3>המידע שלך נשאר שלך</h3>
+              <p>
+                מידע על תסמינים, מחזור ודימום הוא אישי ורגיש. ב
+                <Link href="/privacy">מדיניות הפרטיות</Link> מפורט כיצד המידע
+                נשמר, מתי הוא נמחק, ומה בשליטתך.
+              </p>
             </div>
           </div>
         </section>
 
-        <section className="lp-section" id="faq">
+        <section className="lp-section lp-section-soft" id="faq">
           <div className="lp-container">
             <div className="lp-section-header">
-              <h2>שאלות נפוצות על גיל המעבר ופרימנופאוזה</h2>
+              <h2>שאלות נפוצות</h2>
               <p>
-                התשובות כאן הן מידע כללי בלבד, ולא תחליף לייעוץ רפואי אישי.
+                התשובות נכתבו בליווי{" "}
+                <a href="https://drzehavi.com/" target="_blank" rel="noopener">
+                  ד״ר זהבי הורוביץ-קוגלר, רופאת גיל המעבר
+                </a>{" "}
+                — מידע כללי בלבד, לא תחליף לייעוץ רפואי אישי.
               </p>
-            </div>
-
-            <div className="lp-faq-notice" role="note">
-              המידע בעמוד זה הוא מידע כללי בלבד. הוא אינו אבחון, אינו ייעוץ
-              רפואי ואינו מחליף פנייה לרופא/ה. בכל תסמין חריג, דימום חריג,
-              כאב משמעותי או חשש רפואי — יש לפנות לגורם רפואי מוסמך.
             </div>
 
             <div className="lp-faq">
               {FAQ.map(({ q, a }, i) => (
-                <details key={i} className="lp-faq-item" data-event="click_faq_question" data-q-index={i}>
+                <details
+                  key={i}
+                  className="lp-faq-item"
+                  data-event="click_faq_question"
+                  data-q-index={i}
+                >
                   <summary>
-                    <span className="lp-faq-q">{q}</span>
                     <span className="lp-faq-icon" aria-hidden="true" />
+                    <span className="lp-faq-q">{q}</span>
                   </summary>
                   <div className="lp-faq-answer">
                     <p>{a}</p>
@@ -676,23 +600,27 @@ export default function HomePage() {
                 </details>
               ))}
             </div>
+
+            <div className="lp-faq-notice" role="note">
+              המידע בעמוד זה הוא מידע כללי בלבד — אינו אבחון ואינו מחליף פנייה
+              לרופא/ה. בכל תסמין או דימום חריג, כאב משמעותי או חשש רפואי — יש
+              לפנות לגורם רפואי מוסמך.
+            </div>
           </div>
         </section>
 
-        <section className="lp-section lp-section-soft" id="download">
+        <section className="lp-section" id="download">
           <div className="lp-container">
             <div className="lp-cta-final">
               <h2>התחילי היום מעקב שיעזור לך להבין את החודש הקרוב</h2>
-              <p>
-                כמה דקות ביום יכולות לעזור לך לבנות תמונה ברורה יותר של מה
-                שקורה בגוף שלך.
-              </p>
+              <p>כמה דקות ביום בונות תמונה ברורה יותר של מה שקורה בגוף שלך.</p>
               <div className="lp-download-badges">
                 <a
                   className="lp-store-link"
-                  href={withUtm(APP_STORE_URL, "download_section_apple")}
+                  href={appStoreLink("web_download_section")}
                   aria-label="הורדה מ-App Store"
-                  data-event="click_app_store_download_section"
+                  data-event="store_click"
+                  data-store="ios"
                 >
                   <img
                     src="/badge-appstore.svg"
@@ -703,9 +631,10 @@ export default function HomePage() {
                 </a>
                 <a
                   className="lp-store-link"
-                  href={withUtm(GOOGLE_PLAY_URL, "download_section_google")}
+                  href={playStoreLink("web_download_section")}
                   aria-label="הורדה מ-Google Play"
-                  data-event="click_google_play_download_section"
+                  data-event="store_click"
+                  data-store="android"
                 >
                   <img
                     src="/badge-googleplay.svg"
@@ -716,40 +645,20 @@ export default function HomePage() {
                 </a>
               </div>
               <p className="lp-download-note">
-                Meno זמינה לאייפון בחנות App Store ולאנדרואיד בחנות Google Play.
+                חינמית · זמינה לאייפון ולאנדרואיד · לא מחליפה ייעוץ רפואי
               </p>
             </div>
           </div>
         </section>
-
       </main>
 
-      <footer className="lp-footer">
-        <div className="lp-container">
-          <p className="lp-footer-disclaimer">
-            Meno מסייעת לך לעקוב אחר תסמינים ושינויים לאורך זמן ולהגיע מוכנה
-            יותר לשיחה עם הרופא/ה. המידע באפליקציה אינו מהווה ייעוץ רפואי,
-            אבחון או טיפול.
-          </p>
-          <div className="lp-footer-grid">
-            <div>© 2026 Meno. כל הזכויות שמורות.</div>
-            <div className="lp-footer-links">
-              <a href="#faq">שאלות נפוצות</a>
-              <Link href="/privacy">מדיניות פרטיות</Link>
-              <Link href="/terms">תנאי שימוש</Link>
-              <Link href="/support">תמיכה</Link>
-              <a href="mailto:contact@menoapp.health">צרי קשר</a>
-              <CookiePreferencesButton />
-            </div>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter />
 
       <div className="lp-mobile-sticky">
         <a
           className="lp-btn lp-btn-primary"
           href="#download"
-          data-event="click_app_store_mobile_sticky"
+          data-event="cta_download_sticky"
         >
           להורדת האפליקציה
         </a>
