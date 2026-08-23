@@ -4,6 +4,22 @@ import ReferralBanner from "./referral-banner";
 import { ARTICLES } from "./guide/articles";
 import { APP_STORE_URL, GOOGLE_PLAY_URL, PHYSICIAN, appStoreLink, playStoreLink } from "./shared";
 
+/**
+ * The three guides shown on the home page, chosen rather than taken off the top
+ * of the array. Dr. Zehavi asked for the recurrent-UTI guide here in place of
+ * the irregular-period one: the link between UTIs and menopause is the thing
+ * women are least likely to know, and it is also the stronger article — 1,090
+ * words and reviewed, against 336 words and unreviewed.
+ */
+const FEATURED_SLUGS = [
+  "perimenopause-symptoms",
+  "recurrent-uti-menopause",
+  "hot-flashes",
+];
+const FEATURED_GUIDES = FEATURED_SLUGS.map(
+  (slug) => ARTICLES.find((a) => a.slug === slug)!
+);
+
 const FAQ: { q: string; a: string }[] = [
   {
     q: "מה זה גיל המעבר ומהי מנופאוזה?",
@@ -535,7 +551,7 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="lp-grid-3">
-              {ARTICLES.slice(0, 3).map((a) => (
+              {FEATURED_GUIDES.map((a) => (
                 <Link
                   key={a.slug}
                   href={`/guide/${a.slug}`}
