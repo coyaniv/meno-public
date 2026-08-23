@@ -30,6 +30,17 @@ export type SymptomItem = {
   note?: string;
 };
 
+export const AGE_OPTIONS = [
+  { id: "under_40", label: "מתחת ל-40" },
+  { id: "40_44", label: "40–44" },
+  { id: "45_49", label: "45–49" },
+  { id: "50_54", label: "50–54" },
+  { id: "55_plus", label: "55 ומעלה" },
+  { id: "skip", label: "מעדיפה לא לענות" },
+] as const;
+
+export type AgeId = (typeof AGE_OPTIONS)[number]["id"];
+
 export const SEVERITY = [
   { value: 0, label: "בכלל לא" },
   { value: 1, label: "קצת" },
@@ -43,20 +54,22 @@ export const SYMPTOMS: SymptomItem[] = [
   { id: "sleep", q: "קושי להירדם או יקיצות בלילה", category: "sleep" },
   { id: "fatigue", q: "עייפות שלא משתפרת אחרי מנוחה", category: "sleep" },
   {
-    id: "mood",
-    q: "עצבנות, דכדוך או מצב רוח משתנה",
+    id: "low_mood",
+    q: "דכדוך, עצב או תחושת ריקנות",
     category: "mood",
     note: "אם התחושה מלווה במחשבות על פגיעה עצמית — אל תחכי לביקור מתוכנן. פני לרופא/ה, למוקד עמידה (1201) או למיון.",
   },
+  { id: "irritability", q: "עצבנות, חוסר סבלנות או התפרצויות", category: "mood" },
   {
     id: "anxiety",
     q: "חרדה או התקפי חרדה",
     category: "mood",
     note: "אם החרדה מפריעה לתפקוד היומיומי — כדאי להתייעץ עם רופא/ה גם ללא קשר לגיל המעבר.",
   },
-  { id: "brain_fog", q: "ערפול מוחי — קושי בריכוז או במציאת מילים", category: "cognitive" },
-  { id: "memory", q: "שכחה של פרטים קטנים", category: "cognitive" },
+  { id: "brain_fog", q: "ערפול מוחי — קושי בריכוז, שכחה או קושי במציאת מילים", category: "cognitive" },
+  { id: "concentration", q: "קושי להתמיד במשימה או לעקוב אחרי שיחה", category: "cognitive" },
   { id: "joints", q: "כאבי מפרקים או שרירים", category: "physical" },
+  { id: "weight", q: "עלייה במשקל או שינוי בצורת הגוף", category: "physical" },
   {
     id: "headaches",
     q: "כאבי ראש",

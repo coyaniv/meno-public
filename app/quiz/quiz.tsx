@@ -1,8 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
+  AGE_OPTIONS,
   BLEEDING_OPTIONS,
   CATEGORY_LABELS,
   INSIGHTS,
@@ -11,11 +12,12 @@ import {
   SEVERITY,
   SYMPTOMS,
   namePattern,
+  type AgeId,
   type BleedingId,
   type Category,
 } from "./questions";
 
-type Step = "intro" | "bleeding" | "since" | "flags" | "symptoms" | "impact" | "report";
+type Step = "intro" | "age" | "bleeding" | "since" | "flags" | "symptoms" | "impact" | "report";
 
 const SINCE_OPTIONS = [
   { id: "under_12", label: "פחות משנה" },
@@ -30,10 +32,11 @@ const IMPACT_OPTIONS = [
   { value: 3, label: "מאוד — זה משפיע על היומיום" },
 ] as const;
 
-const STEPS: Step[] = ["bleeding", "since", "flags", "symptoms", "impact", "report"];
+const STEPS: Step[] = ["age", "bleeding", "since", "flags", "symptoms", "impact", "report"];
 
 export default function Quiz() {
   const [step, setStep] = useState<Step>("intro");
+  const [age, setAge] = useState<AgeId | null>(null);
   const [bleeding, setBleeding] = useState<BleedingId | null>(null);
   const [since, setSince] = useState<string | null>(null);
   const [flags, setFlags] = useState<string[]>([]);
@@ -55,10 +58,23 @@ export default function Quiz() {
     return acc;
   }, [scores]);
 
+  /**
+   * Categories prominent enough to name in the pattern.
+   *
+   * The ratio alone is not enough: because max scales with item count, a single
+   * severe symptom clears 40% in a two-item category but not in a four-item one.
+   * That silently pushed the urogenital and physical groups out of the pattern —
+   * the two areas women under-report most. A category therefore also qualifies
+   * when any single symptom in it is scored 2 or higher.
+   */
   const topCategories = useMemo(
     () =>
       (Object.keys(CATEGORY_LABELS) as Category[])
-        .filter((c) => byCategory[c] && byCategory[c].score / byCategory[c].max >= 0.4)
+        .filter((c) => {
+          const d = byCategory[c];
+          if (!d) return false;
+          return d.score / d.max >= 0.4 || d.items.length > 0;
+        })
         .sort((a, b) => byCategory[b].score / byCategory[b].max - byCategory[a].score / byCategory[a].max),
     [byCategory]
   );
@@ -74,8 +90,31 @@ export default function Quiz() {
   const answered = SYMPTOMS.filter((s) => scores[s.id] !== undefined).length;
   const masked = bleeding !== null && MASKED_BY_HORMONES.includes(bleeding);
 
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  /**
+   * Move to a step and bring the card back into view.
+   *
+   * The 110px offset clears the sticky header — without it the card's heading
+   * lands underneath it. The timeout lets React commit the new step first, so
+   * the measurement is taken against the card that is about to be shown rather
+   * than the one being replaced.
+   */
+  const go = useCallback((next: Step) => {
+    setStep(next);
+    setTimeout(() => {
+      const el = cardRef.current;
+      if (!el) return;
+      window.scrollTo({
+        top: el.getBoundingClientRect().top + window.scrollY - 110,
+        behavior: "smooth",
+      });
+    }, 30);
+  }, []);
+
   function reset() {
-    setStep("intro");
+    go("intro");
+    setAge(null);
     setBleeding(null);
     setSince(null);
     setFlags([]);
@@ -84,7 +123,7 @@ export default function Quiz() {
   }
 
   return (
-    <div className="lp-quiz">
+    <div className="lp-quiz" ref={cardRef}>
       {step !== "intro" && (
         <div className="lp-quiz-progress" aria-hidden="true">
           <div className="lp-quiz-progress-bar" style={{ width: `${progress}%` }} />
@@ -107,9 +146,38 @@ export default function Quiz() {
             דם — שקובעת אם את בפרימנופאוזה; האבחנה נשענת על התמונה הקלינית לאורך זמן.
             המטרה כאן היא לארגן את התמונה, לא להכריע אותה.
           </p>
-          <button className="lp-btn lp-btn-primary" onClick={() => setStep("bleeding")}>
+          <button className="lp-btn lp-btn-primary" onClick={() => go("age")}>
             להתחיל
           </button>
+        </section>
+      )}
+
+      {step === "age" && (
+        <section className="lp-quiz-card">
+          <h2>בת כמה את?</h2>
+          <p className="lp-quiz-lead">
+            אותם תסמינים בדיוק נקראים אחרת בגיל 38 ובגיל 52 — הגיל הוא אחד משלושת
+            הדברים שרופאה מסתכלת עליהם, לצד דפוס הדימום והתסמינים. טווח מספיק.
+          </p>
+          <fieldset className="lp-quiz-options">
+            <legend>טווח הגיל שלך</legend>
+            {AGE_OPTIONS.map((o) => (
+              <label key={o.id} className={age === o.id ? "is-selected" : ""}>
+                <input
+                  type="radio"
+                  name="age"
+                  checked={age === o.id}
+                  onChange={() => setAge(o.id)}
+                />
+                <span>{o.label}</span>
+              </label>
+            ))}
+          </fieldset>
+          <Nav
+            onNext={() => go("bleeding")}
+            nextDisabled={age === null}
+            onBack={() => go("intro")}
+          />
         </section>
       )}
 
@@ -134,9 +202,9 @@ export default function Quiz() {
             ))}
           </fieldset>
           <Nav
-            onNext={() => setStep("since")}
+            onNext={() => go("since")}
             nextDisabled={!bleeding}
-            onBack={() => setStep("intro")}
+            onBack={() => go("age")}
           />
         </section>
       )}
@@ -159,9 +227,9 @@ export default function Quiz() {
             ))}
           </fieldset>
           <Nav
-            onNext={() => setStep("flags")}
+            onNext={() => go("flags")}
             nextDisabled={!since}
-            onBack={() => setStep("bleeding")}
+            onBack={() => go("bleeding")}
           />
         </section>
       )}
@@ -190,7 +258,11 @@ export default function Quiz() {
               </label>
             ))}
           </fieldset>
-          <Nav onNext={() => setStep("symptoms")} onBack={() => setStep("since")} />
+          <Nav
+            onNext={() => go("symptoms")}
+            onBack={() => go("since")}
+            nextLabel={flags.length > 0 ? "המשך" : "אף אחד מאלה — המשך"}
+          />
         </section>
       )}
 
@@ -230,14 +302,14 @@ export default function Quiz() {
           ))}
 
           <Nav
-            onNext={() => setStep("impact")}
+            onNext={() => go("impact")}
             nextDisabled={answered < SYMPTOMS.length}
             nextLabel={
               answered < SYMPTOMS.length
                 ? `נותרו ${SYMPTOMS.length - answered} שאלות`
                 : "המשך"
             }
-            onBack={() => setStep("flags")}
+            onBack={() => go("flags")}
           />
         </section>
       )}
@@ -260,10 +332,10 @@ export default function Quiz() {
             ))}
           </fieldset>
           <Nav
-            onNext={() => setStep("report")}
+            onNext={() => go("report")}
             nextDisabled={impact === null}
             nextLabel="לצפייה בסיכום"
-            onBack={() => setStep("symptoms")}
+            onBack={() => go("symptoms")}
           />
         </section>
       )}
@@ -334,6 +406,16 @@ export default function Quiz() {
             })}
           </div>
 
+          {age !== null && (age === "under_40" || age === "40_44") && topCategories.length > 0 && (
+            <p className="lp-quiz-note">
+              בגיל שציינת, תסמינים כאלה נתקלים לא פעם בתשובה ״את צעירה מדי בשביל זה״.
+              זו אינה תשובה מדויקת: פרימנופאוזה יכולה להתחיל שנים לפני שהמחזור נפסק,
+              והפסקת מחזור לפני גיל 45 מצדיקה בירור בפני עצמה — גם בגלל ההשפעה על
+              בריאות העצם והלב בטווח הארוך.{" "}
+              <Link href="/guide/early-menopause">קראי על גיל מעבר מוקדם</Link>
+            </p>
+          )}
+
           {impact !== null && impact >= 2 && (
             <p className="lp-quiz-impact">
               ציינת שהתסמינים משפיעים על היומיום שלך באופן משמעותי. זה לא פרט שולי —
@@ -341,8 +423,6 @@ export default function Quiz() {
               טיפול, ושווה לומר אותה במפורש ולא רק לתאר תסמינים.
             </p>
           )}
-
-          <ShareBlock pattern={namePattern(topCategories)} />
 
           <div className="lp-quiz-next">
             <h3>אבל זו נקודה אחת בזמן</h3>
@@ -368,6 +448,7 @@ export default function Quiz() {
               לקראת הביקור הבא.
             </p>
           </div>
+          <ShareBlock pattern={namePattern(topCategories)} />
 
           <div className="lp-quiz-actions">
             <button className="lp-quiz-restart" onClick={reset}>

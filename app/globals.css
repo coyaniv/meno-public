@@ -1337,7 +1337,11 @@ a.lp-store-link:hover { transform: translateY(-2px); }
 
 .lp-quiz-options label {
   display: flex;
-  align-items: flex-start;
+  /* Centred, not top-aligned: most of these options are a single line, and the
+     4px nudge that top-alignment needed left the control sitting above the text.
+     On the few labels that wrap to two lines a centred control still reads
+     correctly, which top-alignment only did for the first line. */
+  align-items: center;
   gap: 12px;
   padding: 14px 18px;
   border: 1px solid rgba(57, 0, 103, 0.14);
@@ -1356,9 +1360,12 @@ a.lp-store-link:hover { transform: translateY(-2px); }
 }
 
 .lp-quiz-options input {
-  margin-top: 4px;
   accent-color: var(--lp-primary-dark);
   flex-shrink: 0;
+  /* Readers here are largely 45-55; the browser default control is small for a
+     primary tap target. */
+  width: 20px;
+  height: 20px;
 }
 
 .lp-quiz-symptom {
