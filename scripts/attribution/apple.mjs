@@ -199,7 +199,52 @@ async function downloads() {
   console.log(`\n  ${sum} downloads over ${totals.length} days with data (${(sum / 35).toFixed(2)}/day).`);
 }
 
-const commands = { status, enable, reports, sources, downloads };
+/**
+ * iOS installs vs updates, by version.
+ *
+ * Sales & Trends lags a day or two, so a version released today shows nothing —
+ * that is reporting delay, not adoption. Product Type Identifier: 1 = first
+ * install, 3 = redownload or an additional device, 7 = update. Counting 7 as a
+ * download is the classic way to inflate these numbers.
+ */
+async function versions() {
+  if (!CONFIG.appleVendorNumber) return console.log("No vendor number set — see lib.mjs.");
+  const { gunzipSync } = await import("zlib");
+  const days = Number(process.argv[3] || 30);
+  const rows = {};
+  let covered = 0;
+  for (let back = 1; back <= days; back++) {
+    const day = new Date(Date.now() - back * 864e5).toISOString().slice(0, 10);
+    const q = new URLSearchParams({
+      "filter[frequency]": "DAILY", "filter[reportSubType]": "SUMMARY",
+      "filter[reportType]": "SALES", "filter[vendorNumber]": CONFIG.appleVendorNumber,
+      "filter[reportDate]": day,
+    });
+    const res = await fetch(`https://api.appstoreconnect.apple.com/v1/salesReports?${q}`, {
+      headers: { Authorization: `Bearer ${appleToken()}`, Accept: "application/a-gzip" },
+    });
+    if (!res.ok) continue;
+    covered++;
+    const lines = gunzipSync(Buffer.from(await res.arrayBuffer())).toString("utf8").trim().split("\n");
+    const cols = lines[0].split("\t");
+    const iV = cols.indexOf("Version"), iT = cols.indexOf("Product Type Identifier"), iU = cols.indexOf("Units");
+    const KIND = { "1": "first install", "3": "redownload", "7": "update" };
+    for (const line of lines.slice(1)) {
+      const c = line.split("\t");
+      const kind = KIND[c[iT]?.[0]] || `type ${c[iT]}`;
+      const key = `${c[iV]}|${kind}`;
+      rows[key] = (rows[key] || 0) + Number(c[iU] || 0);
+    }
+  }
+  const out = Object.entries(rows)
+    .map(([k, v]) => [...k.split("|"), v])
+    .sort((a, b) => b[2] - a[2]);
+  console.log(table(out, ["version", "kind", "units"]));
+  console.log(`\n  ${covered} of the last ${days} days had a report. Apple lags 1-2 days,`);
+  console.log(`  so a version released in that window will look like nobody took it.`);
+}
+
+const commands = { status, enable, reports, sources, downloads, versions };
 const cmd = process.argv[2] || "status";
 if (commands[cmd]) await commands[cmd]();
-else console.log("commands: status | enable | reports | sources | downloads");
+else console.log("commands: status | enable | reports | sources | downloads | versions");
