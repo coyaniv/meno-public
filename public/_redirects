@@ -1,3 +1,8 @@
 /login  /  301
 /zehavi  /?utm_source=dr_zehavi&utm_medium=vanity_url&utm_campaign=doctor_referral  302
 /medical  https://drzehavi.com/  302
+
+# Guide removed at the reviewing clinician's request. Redirected rather than
+# left to 404 because the URL was live and indexed. The urogenital pillar is
+# the closest surviving topic.
+/guide/low-libido-menopause  /guide/vaginal-estrogen  301
