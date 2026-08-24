@@ -13,7 +13,7 @@ export type ArticleSection = {
  */
 export type ClusterId = "basics" | "hrt" | "symptoms" | "urogenital";
 
-export const CLUSTERS: {
+const ALL_CLUSTERS: {
   id: ClusterId;
   title: string;
   pillar: string;
@@ -95,7 +95,7 @@ export type Article = {
 export const ALL_ARTICLES: Article[] = [
   {
     slug: "perimenopause-symptoms",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "תסמיני פרימנופאוזה — איך מזהים את טרום גיל המעבר",
     metaTitle: "תסמיני פרימנופאוזה — איך מזהים את טרום גיל המעבר",
@@ -160,7 +160,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "irregular-period-after-40",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "מחזור לא סדיר אחרי גיל 40 — מה נורמלי ומתי לפנות לרופאה",
     metaTitle: "מחזור לא סדיר אחרי גיל 40 — מה נורמלי ומתי לפנות לרופאה",
@@ -215,7 +215,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "hot-flashes",
-    published: true,
+    published: false,
     cluster: "symptoms",
     title: "גלי חום בגיל המעבר — טריגרים נפוצים ומה אפשר לעשות",
     metaTitle: "גלי חום בגיל המעבר — טריגרים נפוצים ומה אפשר לעשות",
@@ -270,7 +270,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "prepare-doctor-visit",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "איך להתכונן לביקור אצל רופאת נשים בגיל המעבר",
     metaTitle: "איך להתכונן לביקור אצל רופאת נשים בגיל המעבר",
@@ -323,7 +323,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "hrt-what-to-track",
-    published: true,
+    published: false,
     cluster: "hrt",
     title: "התחלת טיפול הורמונלי (HRT) — מה לעקוב כדי לדעת אם הוא עובד",
     metaTitle: "התחלת טיפול הורמונלי (HRT) — מה לעקוב כדי לדעת אם הוא עובד",
@@ -386,7 +386,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "early-menopause",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "גיל המעבר מוקדם — תסמינים בגיל 35–45 ומה חשוב לבדוק",
     metaTitle: "גיל המעבר מוקדם — תסמינים בגיל 35–45 ומה חשוב לבדוק",
@@ -460,7 +460,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "natural-remedies",
-    published: true,
+    published: false,
     cluster: "symptoms",
     title: "טיפול טבעי לגיל המעבר — מה באמת עובד לפי המחקר",
     metaTitle: "טיפול טבעי לגיל המעבר — מה באמת עובד לפי המחקר",
@@ -534,7 +534,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "how-long-does-menopause-last",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "כמה זמן נמשך גיל המעבר — והאם התסמינים עוברים",
     metaTitle: "כמה זמן נמשך גיל המעבר — והאם התסמינים עוברים",
@@ -594,7 +594,7 @@ export const ALL_ARTICLES: Article[] = [
   },
   {
     slug: "how-to-know-period-ended",
-    published: true,
+    published: false,
     cluster: "basics",
     title: "איך יודעים שהמחזור נגמר? סימנים שאת מתקרבת למנופאוזה",
     metaTitle: "איך יודעים שהמחזור נגמר? סימנים שאת מתקרבת למנופאוזה",
@@ -2319,6 +2319,15 @@ export const ALL_ARTICLES: Article[] = [
  * someone forgets one.
  */
 export const ARTICLES: Article[] = ALL_ARTICLES.filter((a) => a.published);
+
+/**
+ * Clusters that still have something in them. Unpublishing a guide can empty a
+ * cluster out, and an empty cluster page is a thin page with a dead pillar link
+ * and a CollectionPage schema listing nothing — so it must not be built at all.
+ */
+export const CLUSTERS = ALL_CLUSTERS.filter((c) =>
+  ARTICLES.some((a) => a.cluster === c.id)
+);
 
 export function getArticle(slug: string): Article | undefined {
   return ARTICLES.find((a) => a.slug === slug);

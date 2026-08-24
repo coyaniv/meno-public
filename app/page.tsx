@@ -6,19 +6,29 @@ import { APP_STORE_URL, GOOGLE_PLAY_URL, PHYSICIAN, appStoreLink, playStoreLink 
 
 /**
  * The three guides shown on the home page, chosen rather than taken off the top
- * of the array. Dr. Zehavi asked for the recurrent-UTI guide here in place of
- * the irregular-period one: the link between UTIs and menopause is the thing
- * women are least likely to know, and it is also the stronger article — 1,090
- * words and reviewed, against 336 words and unreviewed.
+ * of the array. Dr. Zehavi asked for the recurrent-UTI guide here: the link
+ * between UTIs and menopause is the thing women are least likely to know.
+ *
+ * All three must be published and physician-reviewed — this is the first
+ * content a first-time visitor sees. The two that used to sit alongside the UTI
+ * guide (perimenopause-symptoms, hot-flashes) were pulled when everything
+ * awaiting Dr. Zehavi's review was unpublished; they are the natural picks to
+ * return here once she signs off.
  */
 const FEATURED_SLUGS = [
-  "perimenopause-symptoms",
   "recurrent-uti-menopause",
-  "hot-flashes",
+  "hrt-safety",
+  "mood-perimenopause",
 ];
-const FEATURED_GUIDES = FEATURED_SLUGS.map(
-  (slug) => ARTICLES.find((a) => a.slug === slug)!
-);
+const FEATURED_GUIDES = FEATURED_SLUGS.map((slug) => {
+  const article = ARTICLES.find((a) => a.slug === slug);
+  // Fail the build rather than render a blank card: an unpublished slug here
+  // used to slip through a non-null assertion and crash at render time.
+  if (!article) {
+    throw new Error(`Home page features "${slug}", which is not a published guide.`);
+  }
+  return article;
+});
 
 const FAQ: { q: string; a: string }[] = [
   {
