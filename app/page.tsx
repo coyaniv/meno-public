@@ -385,6 +385,11 @@ export default function HomePage() {
                 במקום לנסות לשחזר הכל מהראש, Meno עוזרת לך לבנות תמונה מסודרת
                 של החודש האחרון.
               </p>
+              <p>
+                <Link href="/quiz">לא בטוחה אם זה גיל המעבר? לשאלון התסמינים ←</Link>
+                <br />
+                <Link href="/tracking">מה המחקר אומר על מעקב תסמינים ←</Link>
+              </p>
             </div>
           </div>
         </section>

@@ -108,6 +108,7 @@ export function SiteFooter() {
           <div className="lp-footer-links">
             <Link href="/guide">מדריכים</Link>
             <Link href="/quiz">שאלון תסמינים</Link>
+            <Link href="/tracking">למה לעקוב</Link>
             <Link href="/for-clinicians">לרופאות ומרפאות</Link>
             <Link href="/privacy">מדיניות פרטיות</Link>
             <Link href="/terms">תנאי שימוש</Link>

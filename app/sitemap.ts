@@ -44,6 +44,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...guidePages,
     {
+      url: `${BASE_URL}/tracking`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
       url: `${BASE_URL}/for-clinicians`,
       lastModified,
       changeFrequency: "monthly",

@@ -216,8 +216,13 @@ export default async function ArticlePage({
                 href="/#download"
                 data-event="cta_download_article"
               >
-                להורדת האפליקציה
+                התחילי לעקוב
               </Link>
+              <p className="lp-article-cta-links">
+                <Link href="/quiz">לא בטוחה אם זה גיל המעבר? לשאלון התסמינים ←</Link>
+                <br />
+                <Link href="/tracking">למה בכלל לעקוב — מה המחקר אומר ←</Link>
+              </p>
             </div>
 
             {related.length > 0 && (

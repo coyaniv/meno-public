@@ -2,9 +2,22 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Quiz from "./quiz";
 import { SiteFooter, SiteHeader } from "../site-chrome";
+import { ARTICLES } from "../guide/articles";
+
+const RELATED_SLUGS = [
+  "perimenopause-symptoms",
+  "irregular-period-after-40",
+  "hot-flashes",
+  "mood-perimenopause",
+  "brain-fog-menopause",
+  "prepare-doctor-visit",
+];
+const RELATED = RELATED_SLUGS.map((s) => ARTICLES.find((a) => a.slug === s)).filter(
+  (a): a is NonNullable<typeof a> => Boolean(a),
+).slice(0, 4);
 
 export const metadata: Metadata = {
-  title: "האם אני בגיל המעבר? שאלון תסמינים בעברית — סיכום לרופאה | Meno",
+  title: "האם אני בגיל המעבר? שאלון תסמינים בעברית — סיכום לרופאה",
   description:
     "שאלון קצר בעברית שמארגן את תסמיני גיל המעבר והפרימנופאוזה שלך לפי קטגוריות, ומייצר סיכום להביא לרופאה. התשובות נשארות במכשיר שלך.",
   alternates: { canonical: "/quiz" },
@@ -92,6 +105,25 @@ export default function QuizPage() {
             <Quiz />
 
             <section className="lp-quiz-context">
+              <h2>אילו תסמינים בכלל קשורים לפרימנופאוזה?</h2>
+              <p>
+                פרימנופאוזה היא התקופה שלפני הפסקת המחזור, שבה השחלות מייצרות
+                הורמונים בצורה פחות סדירה. היא מתחילה לרוב באמצע שנות ה-40, אבל
+                הטווח רחב. הסימן המוקדם והשכיח ביותר הוא <strong>שינוי בדפוס
+                המחזור</strong> — מרווחים שמתקצרים או מתארכים, דימום כבד או קל
+                מהרגיל. לצידו מופיעים אצל רבות גלי חום והזעות לילה, שינה קטועה,
+                שינויים במצב הרוח, קושי בריכוז ("ערפל מוחי"), יובש נרתיקי, כאבי
+                מפרקים ושינויים בחשק המיני.
+              </p>
+              <p>
+                אף אחד מהתסמינים האלה לא ייחודי לגיל המעבר — עייפות, שינה גרועה
+                ושינויי מצב רוח יכולים לנבוע מבלוטת התריס, מחסר ברזל, מלחץ או
+                מתרופות. לכן השאלון לא שואל "האם זה גיל המעבר" אלא "מה חוזר, מאז
+                מתי, ובאיזו עוצמה" — השאלות שרופאה צריכה כדי להבחין בין האפשרויות.
+                דימום כבד במיוחד, דימום אחרי יחסי מין, או מחזור שנפסק לפני גיל 40
+                מצדיקים פנייה לרופאה בלי לחכות לתוצאות של שום שאלון.
+              </p>
+
               <h2>למה אין בדיקה שתגיד לך</h2>
               <p>
                 בשונה ממנופאוזה — שמוגדרת בדיעבד, אחרי 12 חודשים רצופים ללא מחזור —
@@ -102,7 +134,8 @@ export default function QuizPage() {
               <p>
                 בפועל האבחנה היא קלינית: הגיל, דפוס המחזור, ואילו תסמינים חוזרים לאורך
                 זמן. כלומר מה שקובע הוא לא מדידה אחת אלא <strong>דפוס</strong> — ודפוס,
-                בהגדרה, אי אפשר לראות ביום אחד.
+                בהגדרה, אי אפשר לראות ביום אחד.{" "}
+                <Link href="/tracking">מה המחקר אומר על מעקב תסמינים בגיל המעבר ←</Link>
               </p>
               <p>
                 זו הסיבה שמעקב הוא לא הרגל בריאותי נחמד אלא המכשיר העיקרי שיש: הוא הדבר
@@ -128,6 +161,22 @@ export default function QuizPage() {
                 מחליף פנייה לרופא/ה. בכל תסמין חריג, דימום חריג, כאב משמעותי או חשש רפואי
                 — יש לפנות לגורם רפואי מוסמך.
               </div>
+
+              {RELATED.length > 0 && (
+                <aside className="lp-article-related">
+                  <h3>להמשך קריאה</h3>
+                  <ul>
+                    {RELATED.map((a) => (
+                      <li key={a.slug}>
+                        <Link href={`/guide/${a.slug}`}>{a.title}</Link>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link className="lp-guide-card-more" href="/guide">
+                    לכל המדריכים ←
+                  </Link>
+                </aside>
+              )}
             </section>
           </div>
         </section>

@@ -40,6 +40,7 @@ Key facts:
 - [Home](${BASE}/): what Meno tracks and why.
 - [Guides index](${BASE}/guide): practical Hebrew guides on menopause and perimenopause.
 - [Self-assessment quiz](${BASE}/quiz): symptom questionnaire with a personal summary.
+- [Why tracking](${BASE}/tracking): the research behind symptom tracking in menopause, with full citations and each study's funding source.
 - [For clinicians](${BASE}/for-clinicians): the clinician-facing view of a patient's tracking.
 - [Support](${BASE}/support) · [Privacy](${BASE}/privacy)
 
