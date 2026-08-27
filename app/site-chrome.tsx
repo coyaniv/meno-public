@@ -5,13 +5,14 @@ import { useState } from "react";
 import { CookiePreferencesButton } from "./cookie-consent-banner";
 
 const PAGE_LINKS = [
+  { href: "/tracking", label: "למה לעקוב" },
   { href: "/guide", label: "מדריכים" },
   { href: "/quiz", label: "שאלון" },
   { href: "/for-clinicians", label: "לרופאות" },
 ];
 
 const HOME_LINKS = [
-  { href: "/#why", label: "למה לעקוב" },
+  { href: "/tracking", label: "למה לעקוב" },
   { href: "/#track", label: "מה מתעדים" },
   { href: "/guide", label: "מדריכים" },
   { href: "/quiz", label: "שאלון" },
