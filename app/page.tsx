@@ -388,7 +388,7 @@ export default function HomePage() {
               <p>
                 <Link href="/quiz">לא בטוחה אם זה גיל המעבר? לשאלון התסמינים ←</Link>
                 <br />
-                <Link href="/tracking">מה המחקר אומר על מעקב תסמינים ←</Link>
+                <Link href="/tracking">למה כדאי לעקוב ומה אפשר ללמוד מזה ←</Link>
               </p>
             </div>
           </div>

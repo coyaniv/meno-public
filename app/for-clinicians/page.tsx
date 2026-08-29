@@ -31,11 +31,70 @@ export const metadata: Metadata = {
  *   3. it saves me time and improves the quality of what I'm told
  *   4. there is reasonable science under it
  *
- * Deliberately much lighter on citations than /tracking. A clinician deciding
- * whether to recommend an app does not want eighteen studies here — she wants
- * the four conclusions and a link if she chooses to check. That is
- * /tracking#research.
+ * The four conclusions come first and stay short. The full evidence base sits
+ * below them at #research, collapsed — a clinician who wants to check the
+ * funding and the caveats can, without that material displacing the argument.
  */
+
+/**
+ * The evidence base. This lived on /tracking, which is the consumer page — but
+ * the reader who wants funding statements and methodological caveats is the
+ * gynaecologist deciding whether to recommend Meno, and she is here. Collapsed
+ * by default: it is reference material, not the argument.
+ */
+const CITE = {
+  swanTrajectories: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5028150/",
+  swanDuration: "https://pmc.ncbi.nlm.nih.gov/articles/PMC4433164/",
+  straw: "https://pubmed.ncbi.nlm.nih.gov/22344196/",
+  nice: "https://www.nice.org.uk/guidance/ng23",
+  basch: "https://pmc.ncbi.nlm.nih.gov/articles/PMC5817466/",
+  athletes:
+    "https://journals.plos.org/plosone/article?id=10.1371%2Fjournal.pone.0335738",
+  review:
+    "https://www.frontiersin.org/journals/global-womens-health/articles/10.3389/fgwh.2021.757706/full",
+  placebo: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10436555/",
+};
+
+function Ref({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
+  );
+}
+
+function Research({ title, children }: { title: string; children: React.ReactNode }) {
+  return (
+    <details className="lp-v2-details">
+      <summary>
+        <span className="lp-v2-plus" aria-hidden="true">
+          +
+        </span>
+        <span className="lp-v2-sum-text">{title}</span>
+      </summary>
+      <div className="lp-v2-body">{children}</div>
+    </details>
+  );
+}
+
+const RESEARCH_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  url: "https://menoapp.health/for-clinicians#research",
+  inLanguage: "he",
+  citation: [
+    {
+      "@type": "ScholarlyArticle",
+      name: "Characterizing the Trajectories of Vasomotor Symptoms Across the Menopausal Transition",
+      url: CITE.swanTrajectories,
+    },
+    {
+      "@type": "ScholarlyArticle",
+      name: "Executive summary of the Stages of Reproductive Aging Workshop +10",
+      url: CITE.straw,
+    },
+  ],
+};
 
 const WHAT_SHE_SEES = [
   { label: "אילו תסמינים מופיעים", detail: "ולא רק אלה שנזכרו בחדר" },
@@ -141,6 +200,10 @@ export default function ForCliniciansPage() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(BREADCRUMB_JSONLD) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(RESEARCH_JSONLD) }}
       />
 
       <SiteHeader />
@@ -289,10 +352,216 @@ export default function ForCliniciansPage() {
               אחרת.
             </p>
             <p>
-              <Link href="/tracking#research" className="lp-v2-inline">
+              <a href="#research" className="lp-v2-inline">
                 המקורות המלאים, המגבלות ופרטי המימון של כל מחקר ←
-              </Link>
+              </a>
             </p>
+
+            <div id="research" style={{ scrollMarginTop: 24 }}>
+              <h2 style={{ marginTop: 48 }}>המקורות המלאים</h2>
+              <p style={{ marginBottom: 14 }}>
+                כל מחקר שעליו נשענות הטענות באתר, מה הוא מראה — ומה הוא עדיין לא
+                מוכיח. לצד כל אחד מצוין מי מימן אותו.
+              </p>
+              <div className="lp-v2-stack">
+              <Research title="SWAN — ארבעה דפוסים שונים של תסמינים">
+                <p>
+                  מחקר SWAN עקב אחרי נשים לאורך המעבר עם חציון מעקב של 15.4 שנים.
+                  בניתוח של 1,455 משתתפות ו־17,814 מדידות זוהו ארבעה דפוסים
+                  נבדלים של גלי חום: נמוך מתמשך (27%), גבוה מתמשך (25.6%), הופעה
+                  מוקדמת (18.4% — מתחיל כ־11 שנה לפני המחזור האחרון) והופעה
+                  מאוחרת (29% — עלייה חדה דווקא אחריו).
+                </p>
+                <p>
+                  חשוב לדייק: אלה קבוצות שנגזרו סטטיסטית מהנתונים, לא תווית שאפשר
+                  להדביק לאישה מסוימת. ביקור אחד לא יכול להראות לאיזו מהעקומות
+                  האלה אישה משתייכת.
+                </p>
+                <p>
+                  SWAN מצא גם שמשך גלי החום ארוך בהרבה ממה שנהוג היה לחשוב —
+                  חציון של כ־7.4 שנים, ואצל חלק מהנשים יותר מעשור.
+                </p>
+              </Research>
+
+              <Research title="ההנחיות הקליניות נותנות משקל משמעותי לדפוס לאורך זמן">
+                <p>
+                  ב־STRAW+10, הסטנדרט הבינלאומי לסיווג שלבי המעבר, שינויים בדפוס
+                  המחזור הם הקריטריון המרכזי — כשההורמונים משמשים כקריטריון תומך.
+                  בשלב המאוחר של המעבר, למשל, מופיעות תקופות של 60 ימים ומעלה ללא
+                  מחזור.
+                </p>
+                <p>
+                  גם הנחיות NICE הבריטיות הולכות באותו כיוון: אצל נשים בריאות
+                  בגיל 45 ומעלה עם תסמינים אופייניים, אפשר לזהות פרימנופאוזה על
+                  בסיס תסמינים ושינויים במחזור, בלי בדיקות מעבדה לאישור האבחנה.
+                  מנופאוזה מוגדרת לאחר 12 חודשים רצופים ללא מחזור.
+                </p>
+                <p>
+                  ההנחיות אינן אומרות שצריך מעקב באפליקציה. הן משתמשות בהיסטוריה
+                  של המחזור והתסמינים כחלק מההערכה — וזה בדיוק המידע שרק את יכולה
+                  לאסוף.
+                </p>
+              </Research>
+
+              <Research title="דיווח תסמינים מובנה — מה שידוע מתחומים אחרים">
+                <p>
+                  מחקרים בתחומים רפואיים אחרים מצאו שדיווח שיטתי על תסמינים בין
+                  ביקורים יכול לשפר את הזיהוי והניהול של בעיות רפואיות. בניסוי
+                  אקראי גדול באונקולוגיה, למשל, מעקב מובנה אחר תסמינים הוביל
+                  להתערבות מוקדמת יותר ולשיפור בתוצאות.
+                </p>
+                <p>
+                  זה אינו מחקר בגיל המעבר, ולכן הוא אינו מוכיח אפקט דומה ב־Meno.
+                  הוא מדגים את העיקרון הרחב יותר של דיווח תסמינים מצד המטופלת.
+                </p>
+              </Research>
+
+              <Research title="גם נשים פעילות מאוד חוות תסמינים משמעותיים">
+                <p>
+                  סקר שפורסם ב־2025 בחן 187 ספורטאיות סבולת בנות 40–60, שכולן
+                  התאמנו לפחות שלוש פעמים בשבוע במשך חמש שנים לפחות. 88% דיווחו
+                  על הפרעות שינה ו־83% על תשישות פיזית ומנטלית. הציון הכולל הגבוה
+                  ביותר נמדד דווקא אצל המשתתפות בפרימנופאוזה.
+                </p>
+                <p>
+                  זה לא מחקר על מעקב, והוא לא מוכיח שמעקב עוזר. הוא כן מראה
+                  שהעומס הסימפטומטי יכול להיות משמעותי גם אצל נשים פעילות מאוד.
+                </p>
+              </Research>
+
+              <Research title="מה הראיות אומרות — ומה הן עדיין לא מוכיחות">
+                <p>
+                  השאלה אם מעקב עצמו מפחית תסמינים נחקרה, אבל התשובה עדיין לא
+                  מבוססת מספיק כדי להציג אותה כעובדה, ואנחנו לא מציגים אותה ככזו.
+                </p>
+                <p>
+                  סקירה שיטתית ומטא־אנליזה מ־2021 בחנה 18 מחקרים ו־1,718 משתתפות
+                  ומצאה קשר בין מעקב תסמינים לבין שיפור במודעות לבריאות, בתקשורת
+                  בין מטופלת לרופא, בקבלת החלטות רפואיות ובהגדרת מטרות טיפול.
+                  במטא־אנליזה של שלושה מחקרים בלבד נמצא אפקט על תדירות גלי חום
+                  (0.73, רווח סמך 95%: 0.57–0.90).
+                </p>
+                <p>
+                  <strong>אבל המחברים עצמם מסייגים חזק.</strong> הם מציינים שמספר
+                  המחקרים הכשירים היה נמוך, שרבים מהם לקו באיכות מתודולוגית — רק
+                  ארבעה מתוך 18 נחשבו בעלי תוקף מספק — ושעם שלושה מחקרים בלבד
+                  במטא־אנליזה לא ניתן היה לחשב funnel plot או להעריך באופן אמין
+                  את הסיכון להטיה. הם מגדירים את הממצאים כראשוניים וקוראים
+                  למחקרים נוספים.
+                </p>
+                <p>
+                  יש גם סיבה מתודולוגית להיזהר. גם במחקרי טיפול בגלי חום קיימת
+                  תגובת פלצבו משמעותית, וחוקרים בתחום מציינים שעצם ניהול יומן
+                  תסמינים עשוי לתרום להפחתה. לכן קשה להסיק ממחקרי מעקב בלבד
+                  שהמעקב עצמו הוא שגרם לשיפור.
+                </p>
+                <div className="lp-v2-soft-note" role="note">
+                  <strong>בשורה התחתונה:</strong> הראיות לגבי היתרונות של מעקב
+                  תסמינים בגיל המעבר עדיין מתפתחות. מה שמבוסס היטב הוא שהמעבר
+                  נראה שונה מאוד מאישה לאישה, שההנחיות הקליניות נותנות משקל
+                  משמעותי לדפוס לאורך זמן, ושדיווח מסודר יכול לספק בסיס טוב יותר
+                  לשיחה הרפואית.
+                </div>
+              </Research>
+
+              <Research title="מקורות מלאים ופרטי מימון">
+                <ol className="lp-v2-refs">
+                  <li>
+                    <strong>
+                      Tepper PG, et al. Characterizing the Trajectories of
+                      Vasomotor Symptoms Across the Menopausal Transition.
+                    </strong>{" "}
+                    <em>Menopause</em>, 2016.{" "}
+                    <span className="lp-v2-fund">
+                      מימון: National Institutes of Health (NIA, NINR, ORWH).
+                    </span>{" "}
+                    <Ref href={CITE.swanTrajectories}>לקריאת המחקר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      Avis NE, et al. Duration of Menopausal Vasomotor Symptoms
+                      Over the Menopause Transition.
+                    </strong>{" "}
+                    <em>JAMA Internal Medicine</em>, 2015.{" "}
+                    <span className="lp-v2-fund">
+                      מימון: National Institutes of Health.
+                    </span>{" "}
+                    <Ref href={CITE.swanDuration}>לקריאת המחקר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      Harlow SD, et al. Executive summary of the Stages of
+                      Reproductive Aging Workshop +10 (STRAW+10).
+                    </strong>{" "}
+                    2012.{" "}
+                    <span className="lp-v2-fund">
+                      מימון: National Institutes of Health (NIA, ORWH).
+                    </span>{" "}
+                    <Ref href={CITE.straw}>לקריאת התקציר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      NICE. Menopause: identification and management (NG23).
+                    </strong>{" "}
+                    עודכנה לאחרונה באפריל 2026.{" "}
+                    <span className="lp-v2-fund">
+                      גוף ציבורי בריטי, ללא מימון מסחרי.
+                    </span>{" "}
+                    <Ref href={CITE.nice}>להנחיה המלאה</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      Basch E, et al. Patient-Reported Outcomes for Symptom
+                      Monitoring During Routine Cancer Treatment.
+                    </strong>{" "}
+                    <em>JAMA</em>, 2017. ניסוי אקראי, 766 מטופלים.{" "}
+                    <strong>אונקולוגיה, לא גיל המעבר.</strong>{" "}
+                    <span className="lp-v2-fund">
+                      מימון: Conquer Cancer Foundation (ASCO); המממן לא היה מעורב
+                      בתכנון, בניתוח או בהחלטת הפרסום.
+                    </span>{" "}
+                    <Ref href={CITE.basch}>לקריאת המחקר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      Hamilton HM, Yarish NM, Heron KE. Frequency and perceived
+                      influence of menopausal symptoms on training and
+                      performance in female endurance athletes.
+                    </strong>{" "}
+                    <em>PLOS One</em>, 2025.{" "}
+                    <span className="lp-v2-fund">
+                      מימון: מענק NHLBI (NIH) ותמיכת Old Dominion University;
+                      המחברות הצהירו על היעדר ניגודי עניינים.
+                    </span>{" "}
+                    <Ref href={CITE.athletes}>לקריאת המחקר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      Andrews R, Hale G, John B, Lancastle D. Evaluating the
+                      Effects of Symptom Monitoring on Menopausal Health
+                      Outcomes.
+                    </strong>{" "}
+                    <em>Frontiers in Global Women&apos;s Health</em>, 2021. 18
+                    מחקרים, 1,718 משתתפות. המחברים מגדירים את הממצאים כראשוניים
+                    ומציינים סיכון גבוה להטיה.{" "}
+                    <span className="lp-v2-fund">
+                      מימון: חלק מעבודת דוקטורט שמומנה על ידי אוניברסיטת דרום
+                      ויילס (KESS 2) ועל ידי Health &amp; Her, חברה בתחום בריאות
+                      הנשים.
+                    </span>{" "}
+                    <Ref href={CITE.review}>לקריאת המחקר</Ref>
+                  </li>
+                  <li>
+                    <strong>
+                      מטא־אנליזה של תגובת פלצבו בניסויים לתסמינים וזומוטוריים.
+                    </strong>{" "}
+                    <em>Frontiers in Psychiatry</em>, 2023.{" "}
+                    <Ref href={CITE.placebo}>לקריאת המחקר</Ref>
+                  </li>
+                </ol>
+              </Research>
+              </div>
+            </div>
 
             <h2 style={{ marginTop: 48 }}>הנתונים של המטופלת</h2>
             <p>

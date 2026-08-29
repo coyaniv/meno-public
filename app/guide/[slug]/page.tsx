@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ARTICLES, CLUSTERS, getArticle } from "../articles";
+import { ARTICLES, CLUSTERS, RENDERABLE_ARTICLES, getArticle } from "../articles";
 import { PHYSICIAN } from "../../shared";
 import { SiteHeader, SiteFooter } from "../../site-chrome";
 
 export function generateStaticParams() {
-  return ARTICLES.map(({ slug }) => ({ slug }));
+  return RENDERABLE_ARTICLES.map(({ slug }) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -221,7 +221,7 @@ export default async function ArticlePage({
               <p className="lp-article-cta-links">
                 <Link href="/quiz">לא בטוחה אם זה גיל המעבר? לשאלון התסמינים ←</Link>
                 <br />
-                <Link href="/tracking">למה בכלל לעקוב — מה המחקר אומר ←</Link>
+                <Link href="/tracking">למה בכלל לעקוב ומה אפשר ללמוד מזה ←</Link>
               </p>
             </div>
 
