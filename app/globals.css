@@ -2498,7 +2498,12 @@ a.lp-store-link:hover { transform: translateY(-2px); }
   line-height: 1.75;
   color: var(--v2-text);
 }
-.lp-v2-legal {
+/* Scoped to .lp-v2 so it outweighs `.lp-v2 p` (class+element, 0-1-1) above.
+   Unscoped, the bare class is 0-1-0 and loses, so a <p class="lp-v2-legal">
+   silently rendered flush against whatever preceded it — which is exactly what
+   happened on /tracking, while /for-clinicians looked right only because its
+   note happens to be a <div>. */
+.lp-v2 .lp-v2-legal {
   margin: 26px 0 0;
   font-size: 14px;
   line-height: 1.7;

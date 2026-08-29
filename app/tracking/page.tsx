@@ -444,7 +444,7 @@ export default function TrackingPage() {
               ))}
             </div>
 
-            <p className="lp-v2-legal">
+            <p className="lp-v2-legal" role="note">
               המידע בעמוד זה הוא מידע כללי בלבד ואינו מהווה ייעוץ רפואי, אבחנה או
               המלצה לטיפול. בכל שאלה או החלטה רפואית יש לפנות לרופא/ה.
             </p>
